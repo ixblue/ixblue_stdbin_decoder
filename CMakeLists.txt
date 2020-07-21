@@ -68,9 +68,21 @@ endif()
 enable_testing()
 
 ## Add gtest based cpp test target and link libraries
+add_executable(data_serializers_navigation-test test/data_serializers_navigation.test.cc)
+target_link_libraries(data_serializers_navigation-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
+add_test(NAME data_serializers_navigation_test COMMAND data_serializers_navigation-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
+add_executable(data_serializers_extended_navigation-test test/data_serializers_extended_navigation.test.cc)
+target_link_libraries(data_serializers_extended_navigation-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
+add_test(NAME data_serializers_extended_navigation-test COMMAND data_serializers_extended_navigation-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
+add_executable(data_serializers_external_data-test test/data_serializers_external_data.test.cc)
+target_link_libraries(data_serializers_external_data-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
+add_test(NAME data_serializers_external_data-test COMMAND data_serializers_external_data-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
 add_executable(memory_blocs_parser_navigation-test test/memory_blocs_parser_navigation.test.cc)
 target_link_libraries(memory_blocs_parser_navigation-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
-add_test(NAME memory_blocs_parser_navigation_test COMMAND memory_blocs_parser_navigation-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)																		
+add_test(NAME memory_blocs_parser_navigation_test COMMAND memory_blocs_parser_navigation-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
 add_executable(memory_blocs_parser_extended_navigation-test test/memory_blocs_parser_extended_navigation.test.cc)
 target_link_libraries(memory_blocs_parser_extended_navigation-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
@@ -80,7 +92,10 @@ add_executable(memory_blocs_parser_external_data-test test/memory_blocs_parser_e
 target_link_libraries(memory_blocs_parser_external_data-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
 add_test(NAME memory_blocs_parser_external_data-test COMMAND memory_blocs_parser_external_data-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
+add_executable(stdbin_encoder-test test/stdbin_encoder.test.cc)
+target_link_libraries(stdbin_encoder-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
+add_test(NAME stdbin_encoder-test COMMAND stdbin_encoder-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
 add_executable(stdbin_decoder-test test/stdbin_decoder.test.cc)
 target_link_libraries(stdbin_decoder-test ${PROJECT_NAME} ${Boost_LIBRARIES} gtest)
 add_test(NAME stdbin_decoder-test COMMAND stdbin_decoder-test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
-
