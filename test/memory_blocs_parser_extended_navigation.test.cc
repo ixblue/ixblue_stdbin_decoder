@@ -8,7 +8,7 @@
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position.h>
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position_deviation.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseRotationAccelerationVesselFrame)
 {

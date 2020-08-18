@@ -1,7 +1,7 @@
 #pragma once
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -13,4 +13,4 @@ struct SoundVelocity
     float ext_speedofsound_ms;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

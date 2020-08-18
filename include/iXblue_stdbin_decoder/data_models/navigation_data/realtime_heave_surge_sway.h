@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -12,4 +12,4 @@ struct RealTimeHeaveSurgeSway
     float rt_sway_atBdL;  /*! Meters - positive PORT SIDE in horizontal vehicle frame */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

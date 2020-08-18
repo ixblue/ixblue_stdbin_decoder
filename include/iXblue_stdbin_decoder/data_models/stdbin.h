@@ -60,7 +60,7 @@
 
 #include <boost/optional.hpp>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -139,4 +139,4 @@ struct BinaryNav
     boost::optional<LogBook> logBook;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

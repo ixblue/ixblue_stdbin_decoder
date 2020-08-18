@@ -1,7 +1,7 @@
 #pragma once
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -11,4 +11,4 @@ struct SmartHeave
     float smartHeave_m;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

@@ -1,7 +1,7 @@
 #pragma once
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -21,4 +21,4 @@ struct Gnss
     float geoidal_separation_m;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

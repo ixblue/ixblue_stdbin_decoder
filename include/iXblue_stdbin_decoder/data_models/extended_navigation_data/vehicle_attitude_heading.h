@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -13,4 +13,4 @@ struct VehicleAttitudeHeading
     float pitch_deg;   /*! Inside -90°/90° - Positive when front down */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

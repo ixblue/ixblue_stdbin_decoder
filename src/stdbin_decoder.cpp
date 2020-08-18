@@ -60,10 +60,12 @@
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
 
-using namespace StdBinDecoder;
 using namespace boost::asio;
 
-StdBinDecoder::StdBinDecoder::StdBinDecoder()
+namespace ixblue_stdbin_decoder
+{
+
+StdBinDecoder::StdBinDecoder()
     : navigationParsers(
           {std::make_shared<Parser::AttitudeHeading>(),
            std::make_shared<Parser::AttitudeHeadingDeviation>(),
@@ -143,7 +145,7 @@ StdBinDecoder::StdBinDecoder::StdBinDecoder()
 
 {}
 
-bool StdBinDecoder::StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
+bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
 {
     std::copy(std::begin(frameData), std::end(frameData),
               std::back_inserter(currentFrame));
@@ -183,7 +185,7 @@ bool StdBinDecoder::StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
     return true;
 }
 
-bool StdBinDecoder::StdBinDecoder::haveEnoughByteToParseHeader(void) const
+bool StdBinDecoder::haveEnoughByteToParseHeader(void) const
 {
     if(currentFrame.size() > 3)
     {
@@ -200,7 +202,7 @@ bool StdBinDecoder::StdBinDecoder::haveEnoughByteToParseHeader(void) const
     return false;
 }
 
-Data::NavHeader StdBinDecoder::StdBinDecoder::parseHeader(mutable_buffer& buffer) const
+Data::NavHeader StdBinDecoder::parseHeader(mutable_buffer& buffer) const
 {
     // We know we have enough bytes to parse the whole header because it had been
     // checked before.
@@ -242,7 +244,7 @@ Data::NavHeader StdBinDecoder::StdBinDecoder::parseHeader(mutable_buffer& buffer
     return res;
 }
 
-bool StdBinDecoder::StdBinDecoder::checkHeader(mutable_buffer& buffer) const
+bool StdBinDecoder::checkHeader(mutable_buffer& buffer) const
 {
     // We already checked the buffer size before calling this method.
     uint8_t I, X;
@@ -250,3 +252,5 @@ bool StdBinDecoder::StdBinDecoder::checkHeader(mutable_buffer& buffer) const
     buffer >> X;
     return I == 'I' && X == 'X';
 }
+
+} // namespace ixblue_stdbin_decoder

@@ -2,7 +2,7 @@
 
 #include <boost/optional.hpp>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -16,4 +16,4 @@ struct NavHeader
     uint32_t navigationDataValidityTime_100us;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

@@ -1,7 +1,7 @@
 #pragma once
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -19,4 +19,4 @@ struct DvlWaterSpeed
     float xv3_stddev_ms;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

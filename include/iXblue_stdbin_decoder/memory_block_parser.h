@@ -7,7 +7,7 @@
 #include <boost/optional.hpp>
 #include <memory>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 
 template<size_t N>
@@ -54,4 +54,4 @@ protected:
 };
 
 typedef std::shared_ptr<MemoryBlockParser> MemoryBlockParserPtr;
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

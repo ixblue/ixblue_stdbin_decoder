@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -12,4 +12,4 @@ struct AccelerationVesselFrame
     float xv3_msec2; /*! m/s2 - Positive up */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

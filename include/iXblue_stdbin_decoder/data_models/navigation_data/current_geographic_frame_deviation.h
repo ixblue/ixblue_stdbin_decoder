@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -10,4 +10,4 @@ struct CurrentGeographicFrameDeviation
     float east_stddev_msec;  /*! Positive east */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -10,4 +10,4 @@ struct HeaveSurgeSwaySpeed
     float sway_speed;  /*! meter/sec - positive port side in horizontal vehicle frame */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

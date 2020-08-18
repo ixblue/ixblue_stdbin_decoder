@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -15,4 +15,4 @@ struct VehiclePosition
     float altitude_m;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

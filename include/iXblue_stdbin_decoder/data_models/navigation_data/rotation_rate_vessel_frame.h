@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -12,4 +12,4 @@ struct RotationRateVesselFrame
     float xv3_degsec; /*! Deg/s - Positive counter clock wise */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

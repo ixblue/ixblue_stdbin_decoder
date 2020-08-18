@@ -8,7 +8,7 @@
 #include <functional>
 #include <set>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 
 /*!
@@ -81,4 +81,4 @@ protected:
     // the parsing state machine. See function \c parse.
     std::vector<uint8_t> currentFrame;
 };
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

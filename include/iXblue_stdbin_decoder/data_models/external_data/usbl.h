@@ -2,7 +2,7 @@
 #include <array>
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -21,4 +21,4 @@ struct Usbl
     float altitude_stddev_m;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

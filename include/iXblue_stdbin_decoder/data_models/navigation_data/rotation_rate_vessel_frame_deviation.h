@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -11,4 +11,4 @@ struct RotationRateVesselFrameDeviation
     float xv3_stddev_degsec; /*! Deg/s */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

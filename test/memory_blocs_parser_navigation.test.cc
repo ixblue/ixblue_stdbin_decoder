@@ -32,7 +32,7 @@
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/system_date.h>
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/temperatures.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseAttitudeAndHeading)
 {

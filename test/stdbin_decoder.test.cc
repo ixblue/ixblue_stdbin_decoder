@@ -22,7 +22,7 @@ TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
     };
     // clang-format on
 
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
     EXPECT_TRUE(parser.parse(memory));
     auto result = parser.getLastNavData();
 
@@ -43,7 +43,7 @@ TEST(StdBinDecoder, WeCanParseV2Protocol)
     std::vector<uint8_t> memory(length);
     file.read(reinterpret_cast<char*>(memory.data()), length);
 
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
 
     EXPECT_TRUE(parser.parse(memory));
     auto result = parser.getLastNavData();
@@ -193,7 +193,7 @@ TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
 
     // By instanciating parser out of the loop, we also test that we can parse
     // multiple messages.
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
 
     for(size_t i = 1; i < memory.size(); ++i)
     {
@@ -226,7 +226,7 @@ TEST(StdBinDecoder, WeCanParseV3Protocol)
     std::vector<uint8_t> memory(length);
     file.read(reinterpret_cast<char*>(memory.data()), length);
 
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
 
     EXPECT_TRUE(parser.parse(memory));
     auto result = parser.getLastNavData();
@@ -576,7 +576,7 @@ TEST(StdBinDecoder, WeCanParseV4Protocol)
     std::vector<uint8_t> memory(length);
     file.read(reinterpret_cast<char*>(memory.data()), length);
 
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
 
     EXPECT_TRUE(parser.parse(memory));
     auto result = parser.getLastNavData();
@@ -836,7 +836,7 @@ TEST(StdBinDecoder, WeCanParseV5Protocol)
     std::vector<uint8_t> memory(length);
     file.read(reinterpret_cast<char*>(memory.data()), length);
 
-    StdBinDecoder::StdBinDecoder parser;
+    ixblue_stdbin_decoder::StdBinDecoder parser;
 
     EXPECT_TRUE(parser.parse(memory));
     auto result = parser.getLastNavData();

@@ -16,7 +16,7 @@
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
 #include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseUtc)
 {

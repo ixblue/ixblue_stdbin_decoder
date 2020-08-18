@@ -3,7 +3,7 @@
 #include "iXblue_stdbin_decoder/data_models/external_data/vtg.h"
 #include "iXblue_stdbin_decoder/memory_block_parser.h"
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Parser
 {
@@ -21,4 +21,4 @@ public:
     }
 };
 } // namespace Parser
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

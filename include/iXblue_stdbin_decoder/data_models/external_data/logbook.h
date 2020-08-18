@@ -2,7 +2,7 @@
 #include <array>
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -14,4 +14,4 @@ struct LogBook
     std::array<uint8_t, 32> custom_text; /* String of ASCII characters */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

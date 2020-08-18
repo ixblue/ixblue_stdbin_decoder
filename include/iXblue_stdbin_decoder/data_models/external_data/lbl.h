@@ -2,7 +2,7 @@
 #include <array>
 #include <inttypes.h>
 
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -19,4 +19,4 @@ struct Lbl
     float range_stddev_m;
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder

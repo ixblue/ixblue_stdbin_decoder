@@ -1,7 +1,8 @@
 #include <iXblue_stdbin_decoder/memory_block_parser.h>
 #include <boost/endian/conversion.hpp>
 
-using namespace StdBinDecoder;
+namespace ixblue_stdbin_decoder
+{
 
 void MemoryBlockParser::parse(boost::asio::mutable_buffer& buffer, const tBitMask& mask,
                               Data::BinaryNav& outBinaryNav)
@@ -22,8 +23,7 @@ void MemoryBlockParser::parse(boost::asio::mutable_buffer& buffer, const tBitMas
     }
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         double& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, double& res)
 {
     uint64_t bytes = *boost::asio::buffer_cast<uint64_t*>(buf);
     boost::endian::big_to_native_inplace(bytes);
@@ -32,8 +32,7 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         float& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, float& res)
 {
     uint32_t bytes = *boost::asio::buffer_cast<uint32_t*>(buf);
     boost::endian::big_to_native_inplace(bytes);
@@ -42,8 +41,7 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         int32_t& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, int32_t& res)
 {
     res = *boost::asio::buffer_cast<int32_t*>(buf);
     boost::endian::big_to_native_inplace(res);
@@ -51,8 +49,7 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         uint64_t& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, uint64_t& res)
 {
     res = *boost::asio::buffer_cast<uint64_t*>(buf);
     boost::endian::big_to_native_inplace(res);
@@ -60,8 +57,7 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         uint32_t& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, uint32_t& res)
 {
     res = *boost::asio::buffer_cast<uint32_t*>(buf);
     boost::endian::big_to_native_inplace(res);
@@ -69,8 +65,7 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         uint16_t& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, uint16_t& res)
 {
     res = *boost::asio::buffer_cast<uint16_t*>(buf);
     boost::endian::big_to_native_inplace(res);
@@ -78,10 +73,11 @@ boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buff
     return buf;
 }
 
-boost::asio::mutable_buffer& StdBinDecoder::operator>>(boost::asio::mutable_buffer& buf,
-                                                         uint8_t& res)
+boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf, uint8_t& res)
 {
     res = *boost::asio::buffer_cast<uint8_t*>(buf);
     buf = buf + sizeof(uint8_t);
     return buf;
 }
+
+} // namespace ixblue_stdbin_decoder

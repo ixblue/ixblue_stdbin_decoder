@@ -1,5 +1,5 @@
 #pragma once
-namespace StdBinDecoder
+namespace ixblue_stdbin_decoder
 {
 namespace Data
 {
@@ -10,4 +10,4 @@ struct HeadingRollPitchRate
     float pitch_rate;   /*! Deg/s - Positive when bow going down */
 };
 } // namespace Data
-} // namespace StdBinDecoder
+} // namespace ixblue_stdbin_decoder
