@@ -11,7 +11,7 @@ class Lbl3 : public MemoryBlockParser
 {
 public:
     Lbl3() : MemoryBlockParser(16, 41) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Lbl res;

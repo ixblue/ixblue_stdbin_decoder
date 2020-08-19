@@ -11,7 +11,7 @@ class Temperatures : public MemoryBlockParser
 {
 public:
     Temperatures() : MemoryBlockParser(25, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Temperatures res;

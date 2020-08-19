@@ -11,7 +11,7 @@ class AttitudeHeading : public MemoryBlockParser
 {
 public:
     AttitudeHeading() : MemoryBlockParser(0, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::AttitudeHeading res;

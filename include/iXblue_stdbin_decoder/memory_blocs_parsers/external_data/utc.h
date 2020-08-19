@@ -11,7 +11,7 @@ class Utc : public MemoryBlockParser
 {
 public:
     Utc() : MemoryBlockParser(0, 5) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Utc res;

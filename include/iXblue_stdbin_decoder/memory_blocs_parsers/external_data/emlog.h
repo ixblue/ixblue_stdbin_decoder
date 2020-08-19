@@ -11,7 +11,7 @@ class Emlog : public MemoryBlockParser
 {
 public:
     Emlog(int bit_pos) : MemoryBlockParser(bit_pos, 13) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Emlog res;

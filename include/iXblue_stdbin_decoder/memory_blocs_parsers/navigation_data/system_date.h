@@ -11,7 +11,7 @@ class SystemDate : public MemoryBlockParser
 {
 public:
     SystemDate() : MemoryBlockParser(13, 4) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::SystemDate res;

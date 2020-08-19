@@ -12,7 +12,7 @@ class SmartHeave : public MemoryBlockParser
 public:
     SmartHeave() : MemoryBlockParser(3, 8) {}
 
-    virtual void parse(boost::asio::mutable_buffer& buffer,
+    virtual void parse(boost::asio::const_buffer& buffer,
                        Data::BinaryNav& outBinaryNav) override
     {
         Data::SmartHeave res;

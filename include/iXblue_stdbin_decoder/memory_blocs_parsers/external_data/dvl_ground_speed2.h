@@ -11,7 +11,7 @@ class DvlGroundSpeed2 : public MemoryBlockParser
 {
 public:
     DvlGroundSpeed2() : MemoryBlockParser(21, 37) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::DvlGroundSpeed res;

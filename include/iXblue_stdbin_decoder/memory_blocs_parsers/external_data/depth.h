@@ -11,7 +11,7 @@ class Depth : public MemoryBlockParser
 {
 public:
     Depth() : MemoryBlockParser(9, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Depth res;

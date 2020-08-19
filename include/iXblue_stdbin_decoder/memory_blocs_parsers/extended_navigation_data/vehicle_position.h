@@ -11,7 +11,7 @@ class VehiclePosition : public MemoryBlockParser
 {
 public:
     VehiclePosition() : MemoryBlockParser(5, 21) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::VehiclePosition res;

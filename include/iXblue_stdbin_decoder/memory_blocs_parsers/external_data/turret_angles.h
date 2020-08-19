@@ -11,7 +11,7 @@ class TurretAngles : public MemoryBlockParser
 {
 public:
     TurretAngles() : MemoryBlockParser(24, 16) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::TurretAngles res;

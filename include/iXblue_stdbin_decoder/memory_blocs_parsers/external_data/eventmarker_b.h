@@ -11,7 +11,7 @@ class EventMarkerB : public MemoryBlockParser
 {
 public:
     EventMarkerB() : MemoryBlockParser(19, 9) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::EventMarker res;

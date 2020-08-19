@@ -11,7 +11,7 @@ class INSSystemStatus : public MemoryBlockParser
 {
 public:
     INSSystemStatus() : MemoryBlockParser(16, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::INSSystemStatus res;

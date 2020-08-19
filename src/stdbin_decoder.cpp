@@ -157,7 +157,7 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
         return false;
     }
 
-    boost::asio::mutable_buffer buffer(currentFrame.data(), currentFrame.size());
+    boost::asio::const_buffer buffer(currentFrame.data(), currentFrame.size());
     lastHeader = parseHeader(buffer);
     // if we didn't receive the whole frame, we return false, and wait for the next
     // memory chunck.
@@ -202,7 +202,7 @@ bool StdBinDecoder::haveEnoughByteToParseHeader(void) const
     return false;
 }
 
-Data::NavHeader StdBinDecoder::parseHeader(mutable_buffer& buffer) const
+Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
 {
     // We know we have enough bytes to parse the whole header because it had been
     // checked before.
@@ -244,7 +244,7 @@ Data::NavHeader StdBinDecoder::parseHeader(mutable_buffer& buffer) const
     return res;
 }
 
-bool StdBinDecoder::checkHeader(mutable_buffer& buffer) const
+bool StdBinDecoder::checkHeader(const_buffer& buffer) const
 {
     // We already checked the buffer size before calling this method.
     uint8_t I, X;

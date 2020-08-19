@@ -11,7 +11,7 @@ class Usbl1 : public MemoryBlockParser
 {
 public:
     Usbl1() : MemoryBlockParser(6, 49) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Usbl res;

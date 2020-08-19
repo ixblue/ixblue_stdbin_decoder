@@ -11,7 +11,7 @@ class Position : public MemoryBlockParser
 {
 public:
     Position() : MemoryBlockParser(7, 21) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Position res;

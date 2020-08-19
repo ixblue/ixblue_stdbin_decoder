@@ -11,7 +11,7 @@ class Vtg2 : public MemoryBlockParser
 {
 public:
     Vtg2() : MemoryBlockParser(26, 17) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Vtg res;

@@ -11,7 +11,7 @@ class DvlWaterSpeed1 : public MemoryBlockParser
 {
 public:
     DvlWaterSpeed1() : MemoryBlockParser(11, 33) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::DvlWaterSpeed res;

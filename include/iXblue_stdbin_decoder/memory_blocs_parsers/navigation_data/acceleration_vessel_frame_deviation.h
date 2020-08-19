@@ -11,7 +11,7 @@ class AccelerationVesselFrameDeviation : public MemoryBlockParser
 {
 public:
     AccelerationVesselFrameDeviation() : MemoryBlockParser(29, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::AccelerationVesselFrameDeviation res;

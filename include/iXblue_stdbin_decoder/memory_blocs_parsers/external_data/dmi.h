@@ -11,7 +11,7 @@ class Dmi : public MemoryBlockParser
 {
 public:
     Dmi() : MemoryBlockParser(13, 8) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::Dmi res;

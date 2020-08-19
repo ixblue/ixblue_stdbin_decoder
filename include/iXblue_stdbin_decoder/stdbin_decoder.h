@@ -64,8 +64,8 @@ protected:
     /*!
      * \exception runtime_error if a parse error occurs.
      */
-    Data::NavHeader parseHeader(boost::asio::mutable_buffer& buffer) const;
-    bool checkHeader(boost::asio::mutable_buffer& buffer) const;
+    Data::NavHeader parseHeader(boost::asio::const_buffer& buffer) const;
+    bool checkHeader(boost::asio::const_buffer& buffer) const;
     bool haveEnoughByteToParseHeader() const;
     // We set the parsers set "constant" to be sure that the content of this set will be
     // the same during all the lifetime of this object. We can only add memory bloc parser

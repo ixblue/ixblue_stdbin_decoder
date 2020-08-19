@@ -11,7 +11,7 @@ class CurrentGeographicFrameDeviation : public MemoryBlockParser
 {
 public:
     CurrentGeographicFrameDeviation() : MemoryBlockParser(12, 8) {}
-    void parse(boost::asio::mutable_buffer& buffer,
+    void parse(boost::asio::const_buffer& buffer,
                Data::BinaryNav& outBinaryNav) override
     {
         Data::CurrentGeographicFrameDeviation res;

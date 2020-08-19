@@ -8,7 +8,7 @@ TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
 {
     // Given a frame with only attitude :
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         'I',  'X',  /*IX blue header   */
         0x02,       /*Protocol Version */
         0x00, 0x00, 0x00, 0x01, /* navigation bitmask (0x00000001 means only AttitudeAndHeading) */

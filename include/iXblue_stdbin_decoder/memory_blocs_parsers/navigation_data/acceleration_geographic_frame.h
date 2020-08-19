@@ -11,8 +11,7 @@ class AccelerationGeographicFrame : public MemoryBlockParser
 {
 public:
     AccelerationGeographicFrame() : MemoryBlockParser(23, 12) {}
-    void parse(boost::asio::mutable_buffer& buffer,
-               Data::BinaryNav& outBinaryNav) override
+    void parse(boost::asio::const_buffer& buffer, Data::BinaryNav& outBinaryNav) override
     {
         Data::AccelerationGeographicFrame res;
         buffer >> res.north_msec2 >> res.east_msec2 >> res.up_msec2;
