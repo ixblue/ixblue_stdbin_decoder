@@ -199,7 +199,7 @@ TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
     {
         std::vector<uint8_t> part1, part2;
         auto cutPoint = memory.begin();
-        // we cut the packet every where :
+        // we cut the packet everywhere:
         std::advance(cutPoint, i);
         std::copy(std::begin(memory), cutPoint, std::back_inserter(part1));
         std::copy(cutPoint, std::end(memory), std::back_inserter(part2));

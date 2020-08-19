@@ -31,7 +31,7 @@ namespace ixblue_stdbin_decoder
 class StdBinDecoder : private boost::noncopyable
 {
     // we sort the parsers list by offsetMask because this is a design constraint. We need
-    // to process parser in the same ordrer than data are filled in memory.
+    // to process parser in the same order than data are filled in memory.
     typedef std::set<
         MemoryBlockParserPtr,
         std::function<bool(const MemoryBlockParserPtr&, const MemoryBlockParserPtr&)>>
