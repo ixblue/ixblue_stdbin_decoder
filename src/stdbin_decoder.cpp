@@ -184,6 +184,15 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
             parser->parse(buffer, lastHeader.externalSensorBitMask, lastParsed);
         }
     }
+    else if(lastHeader.messageType == Data::NavHeader::MessageType::Answer)
+    {
+        lastAnswer.clear();
+        const size_t answerSize =
+            lastHeader.telegramSize - ANSWER_HEADER_SIZE - CHECKSUM_SIZE;
+        lastAnswer.resize(answerSize);
+        buffer_copy(boost::asio::buffer(lastAnswer), buffer, answerSize);
+        buffer = buffer + answerSize;
+    }
 
     currentFrame.clear(); // we clear the current frame to be ready for the next one.
     return true;
@@ -193,14 +202,28 @@ bool StdBinDecoder::haveEnoughByteToParseHeader(const std::vector<uint8_t>& fram
 {
     if(frame.size() > 3)
     {
-        uint8_t protocol_version = frame.at(2);
-        switch(protocol_version)
+        const uint8_t protocol_version = frame.at(2);
+        if(frame[0] == 'I' && frame[1] == 'X')
         {
-        case 0x02: return frame.size() >= HEADER_SIZE_V2;
-        case 0x03: return frame.size() >= HEADER_SIZE_V3;
-        case 0x04: return frame.size() >= HEADER_SIZE_V4;
-        case 0x05: return frame.size() >= HEADER_SIZE_V5;
-        default: throw std::runtime_error("Unhandled protocol version");
+            switch(protocol_version)
+            {
+            case 0x02: return frame.size() >= HEADER_SIZE_V2;
+            case 0x03: return frame.size() >= HEADER_SIZE_V3;
+            case 0x04: return frame.size() >= HEADER_SIZE_V4;
+            case 0x05: return frame.size() >= HEADER_SIZE_V5;
+            default: throw std::runtime_error("Unhandled protocol version");
+            }
+        }
+        else if(frame[0] == 'A' && frame[1] == 'N')
+        {
+            if(protocol_version >= 3 && protocol_version <= 5)
+            {
+                return frame.size() >= ANSWER_HEADER_SIZE;
+            }
+            else
+            {
+                throw std::runtime_error("Unhandled protocol version for an answer");
+            }
         }
     }
     return false;
@@ -219,11 +242,11 @@ Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
     }
 
     res.messageType = getHeaderType(buffer);
-    if(res.messageType != Data::NavHeader::MessageType::NavData &&
-       res.messageType != Data::NavHeader::MessageType::Answer)
+    if(res.messageType == Data::NavHeader::MessageType::Unknown)
     {
         throw std::runtime_error("Incorrect frame header, expected 'I', 'X' or 'A', 'N'");
     }
+
     buffer >> res.protocolVersion;
     if(res.protocolVersion < 2 && res.protocolVersion > 5)
     {
@@ -273,11 +296,6 @@ Data::NavHeader::MessageType StdBinDecoder::getHeaderType(const_buffer& buffer) 
     if(h1 == 'A' && h2 == 'N')
     {
         return Data::NavHeader::MessageType::Answer;
-    }
-
-    if(h1 == 'C' && h2 == 'M')
-    {
-        return Data::NavHeader::MessageType::Command;
     }
 
     return Data::NavHeader::MessageType::Unknown;

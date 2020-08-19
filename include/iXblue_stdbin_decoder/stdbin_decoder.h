@@ -41,6 +41,8 @@ class StdBinDecoder : private boost::noncopyable
     static constexpr size_t HEADER_SIZE_V3 = 25;
     static constexpr size_t HEADER_SIZE_V4 = 27;
     static constexpr size_t HEADER_SIZE_V5 = 27;
+    static constexpr size_t ANSWER_HEADER_SIZE = 5;
+    static constexpr size_t CHECKSUM_SIZE = 4;
 
 public:
     StdBinDecoder();
@@ -59,6 +61,7 @@ public:
 
     Data::BinaryNav getLastNavData(void) const { return lastParsed; }
     Data::NavHeader getLastHeaderData(void) const { return lastHeader; }
+    const std::vector<uint8_t>& getLastAnswerData(void) const { return lastAnswer; }
 
 protected:
     /*!
@@ -76,6 +79,7 @@ protected:
 
     Data::BinaryNav lastParsed;
     Data::NavHeader lastHeader;
+    std::vector<uint8_t> lastAnswer;
 
     // We store in this buffer the current frame's data. This memory chunk is managed by
     // the parsing state machine. See function \c parse.

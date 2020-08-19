@@ -1085,6 +1085,30 @@ TEST(StdBinDecoder, WeCanParseV5Protocol)
     EXPECT_FALSE(result.logBook.is_initialized());
 }
 
+TEST(StdBinDecoder, WeCanParseAnAnswerFrame)
+{
+    // clang-format off
+    const std::vector<uint8_t> memory{
+        'A',  'N',  /* IX blue header   */
+        0x03,       /* Protocol Version */
+        0x00, 0x0d, /* Telegram size */
+        0xde, 0xad, 0xbe, 0xef, /* payload */
+        0x01, 0x02, 0x03, 0x04, /* dummy checksum */
+    };
+    // clang-format on
+
+    ixblue_stdbin_decoder::StdBinDecoder parser;
+    ASSERT_TRUE(parser.parse(memory));
+    const auto header = parser.getLastHeaderData();
+    const auto nav = parser.getLastNavData();
+    const auto answer = parser.getLastAnswerData();
+    ASSERT_EQ(header.messageType,
+              ixblue_stdbin_decoder::Data::NavHeader::MessageType::Answer);
+    EXPECT_FALSE(nav.attitudeHeading.is_initialized());
+    const std::vector<uint8_t> expectedAnswer{0xde, 0xad, 0xbe, 0xef};
+    EXPECT_EQ(answer, expectedAnswer);
+}
+
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
