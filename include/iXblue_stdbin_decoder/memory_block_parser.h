@@ -14,11 +14,10 @@ template<size_t N>
 boost::asio::mutable_buffer& operator>>(boost::asio::mutable_buffer& buf,
                                         std::array<uint8_t, N>& res)
 {
-
-    for(int bytes_index; bytes_index < res.size(); bytes_index++)
+    for(auto& b : res)
     {
         auto byte = boost::asio::buffer(buf, 1);
-        res.at(bytes_index) = *boost::asio::buffer_cast<uint8_t*>(byte);
+        b = *boost::asio::buffer_cast<uint8_t*>(byte);
         buf = buf + sizeof(uint8_t);
     }
     return buf;
