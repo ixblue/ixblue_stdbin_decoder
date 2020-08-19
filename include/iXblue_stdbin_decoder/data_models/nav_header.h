@@ -8,6 +8,15 @@ namespace Data
 {
 struct NavHeader
 {
+    enum class MessageType
+    {
+        Command,
+        Answer,
+        NavData,
+        Unknown
+    };
+
+    MessageType messageType;
     uint8_t protocolVersion;
     uint32_t navigationBitMask;
     boost::optional<uint32_t> extendedNavigationBitMask;

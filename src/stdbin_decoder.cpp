@@ -163,22 +163,26 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
     // memory chunck.
     if(currentFrame.size() < lastHeader.telegramSize) return false;
 
-    for(const auto& parser : navigationParsers)
+    if(lastHeader.messageType == Data::NavHeader::MessageType::NavData)
     {
-        parser->parse(buffer, lastHeader.navigationBitMask, lastParsed);
-    }
-
-    if(lastHeader.extendedNavigationBitMask.is_initialized())
-    {
-        for(const auto& parser : extendedNavigationParsers)
+        for(const auto& parser : navigationParsers)
         {
-            parser->parse(buffer, lastHeader.extendedNavigationBitMask.get(), lastParsed);
+            parser->parse(buffer, lastHeader.navigationBitMask, lastParsed);
         }
-    }
 
-    for(const auto& parser : externalDataParsers)
-    {
-        parser->parse(buffer, lastHeader.externalSensorBitMask, lastParsed);
+        if(lastHeader.extendedNavigationBitMask.is_initialized())
+        {
+            for(const auto& parser : extendedNavigationParsers)
+            {
+                parser->parse(buffer, lastHeader.extendedNavigationBitMask.get(),
+                              lastParsed);
+            }
+        }
+
+        for(const auto& parser : externalDataParsers)
+        {
+            parser->parse(buffer, lastHeader.externalSensorBitMask, lastParsed);
+        }
     }
 
     currentFrame.clear(); // we clear the current frame to be ready for the next one.
@@ -213,9 +217,12 @@ Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
     {
         throw std::runtime_error("Not enough bytes in buffer to parse header");
     }
-    if(checkHeader(buffer) == false)
+
+    res.messageType = getHeaderType(buffer);
+    if(res.messageType != Data::NavHeader::MessageType::NavData &&
+       res.messageType != Data::NavHeader::MessageType::Answer)
     {
-        throw std::runtime_error("Incorrect frame header, expected 'I', 'X'");
+        throw std::runtime_error("Incorrect frame header, expected 'I', 'X' or 'A', 'N'");
     }
     buffer >> res.protocolVersion;
     if(res.protocolVersion < 2 && res.protocolVersion > 5)
@@ -224,33 +231,56 @@ Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
             "Unknown protocol version. Supported protocol are version 2->5");
     }
 
-    buffer >> res.navigationBitMask;
-    if(res.protocolVersion > 2)
+    if(res.messageType == Data::NavHeader::MessageType::NavData)
     {
-        uint32_t extendedNavigationMask;
-        buffer >> extendedNavigationMask;
-        res.extendedNavigationBitMask = extendedNavigationMask;
+        buffer >> res.navigationBitMask;
+        if(res.protocolVersion > 2)
+        {
+            uint32_t extendedNavigationMask;
+            buffer >> extendedNavigationMask;
+            res.extendedNavigationBitMask = extendedNavigationMask;
+        }
+        buffer >> res.externalSensorBitMask;
+        uint16_t navigationSize = 0;
+        if(res.protocolVersion > 3)
+        {
+            buffer >> navigationSize;
+        }
+        buffer >> res.telegramSize;
+        buffer >> res.navigationDataValidityTime_100us;
+        uint32_t counter;
+        buffer >> counter;
     }
-    buffer >> res.externalSensorBitMask;
-    uint16_t navigationSize = 0;
-    if(res.protocolVersion > 3)
+    else
     {
-        buffer >> navigationSize;
+        buffer >> res.telegramSize;
     }
-    buffer >> res.telegramSize;
-    buffer >> res.navigationDataValidityTime_100us;
-    uint32_t counter;
-    buffer >> counter;
     return res;
 }
 
-bool StdBinDecoder::checkHeader(const_buffer& buffer) const
+Data::NavHeader::MessageType StdBinDecoder::getHeaderType(const_buffer& buffer) const
 {
     // We already checked the buffer size before calling this method.
-    uint8_t I, X;
-    buffer >> I;
-    buffer >> X;
-    return I == 'I' && X == 'X';
+    uint8_t h1, h2;
+    buffer >> h1;
+    buffer >> h2;
+
+    if(h1 == 'I' && h2 == 'X')
+    {
+        return Data::NavHeader::MessageType::NavData;
+    }
+
+    if(h1 == 'A' && h2 == 'N')
+    {
+        return Data::NavHeader::MessageType::Answer;
+    }
+
+    if(h1 == 'C' && h2 == 'M')
+    {
+        return Data::NavHeader::MessageType::Command;
+    }
+
+    return Data::NavHeader::MessageType::Unknown;
 }
 
 } // namespace ixblue_stdbin_decoder
