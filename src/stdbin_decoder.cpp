@@ -152,7 +152,7 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
 
     // Now, we will look for version of the received frame and wait to have receive enough
     // data to parse full header.
-    if(haveEnoughByteToParseHeader() == false)
+    if(haveEnoughByteToParseHeader(currentFrame) == false)
     {
         return false;
     }
@@ -185,18 +185,18 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
     return true;
 }
 
-bool StdBinDecoder::haveEnoughByteToParseHeader(void) const
+bool StdBinDecoder::haveEnoughByteToParseHeader(const std::vector<uint8_t>& frame) const
 {
-    if(currentFrame.size() > 3)
+    if(frame.size() > 3)
     {
-        uint8_t protocol_version = currentFrame.at(2);
+        uint8_t protocol_version = frame.at(2);
         switch(protocol_version)
         {
-        case 0x02: return currentFrame.size() >= HEADER_SIZE_V2;
-        case 0x03: return currentFrame.size() >= HEADER_SIZE_V3;
-        case 0x04: return currentFrame.size() >= HEADER_SIZE_V4;
-        case 0x05: return currentFrame.size() >= HEADER_SIZE_V5;
-        default: throw std::runtime_error("Un handled protocol version");
+        case 0x02: return frame.size() >= HEADER_SIZE_V2;
+        case 0x03: return frame.size() >= HEADER_SIZE_V3;
+        case 0x04: return frame.size() >= HEADER_SIZE_V4;
+        case 0x05: return frame.size() >= HEADER_SIZE_V5;
+        default: throw std::runtime_error("Unhandled protocol version");
         }
     }
     return false;
