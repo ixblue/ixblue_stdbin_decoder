@@ -2,8 +2,8 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2020-08-26)
+------------------
 * Add package.xml to build with catkin
 * Rework cmake installation
 * Rename to ixblue_stdbin_decoder in lower case to stay consistent
