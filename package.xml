@@ -19,6 +19,7 @@
   <build_export_depend>libboost-dev</build_export_depend>
   <depend>libboost-system-dev</depend>
 
+  <test_depend>git</test_depend>
   <test_depend>gtest</test_depend>
 
   <export>
