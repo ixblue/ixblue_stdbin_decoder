@@ -1,28 +1,28 @@
 #include <array>
 #include <gtest/gtest.h>
 
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/depth.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dmi.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_ground_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_water_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/emlog.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/eventmarker.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/gnss.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/lbl.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/logbook.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/sound_velocity.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/turret_angles.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/usbl.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/depth.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dmi.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_ground_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_water_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/emlog.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/eventmarker.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/gnss.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/lbl.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/logbook.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/sound_velocity.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/turret_angles.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/usbl.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseUtc)
 {
     // Validity Time : 254 (0x000000fe), source : 24 (0x18)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x18
     };
@@ -62,7 +62,7 @@ TEST(MemoryBocksParser, ParseGnss)
     // latlonCOR : -0.005f (0xbba3d70a), geoidalSep : 8.562 (0x4108fdf4)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x1c,
@@ -78,7 +78,7 @@ TEST(MemoryBocksParser, ParseGnss)
         0x41, 0x08, 0xfd, 0xf4
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x1c,
@@ -94,7 +94,7 @@ TEST(MemoryBocksParser, ParseGnss)
         0x41, 0x08, 0xfd, 0xf4
     };
 
-    std::vector<uint8_t> memory3{
+    const std::vector<uint8_t> memory3{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x1c,
@@ -115,7 +115,8 @@ TEST(MemoryBocksParser, ParseGnss)
     gnss_memory.insert(gnss_memory.end(), memory2.begin(), memory2.end());
     gnss_memory.insert(gnss_memory.end(), memory3.begin(), memory3.end());
 
-    auto buffer = boost::asio::buffer(gnss_memory.data(), gnss_memory.size());
+    auto buffer = boost::asio::buffer(const_cast<const uint8_t*>(gnss_memory.data()),
+                                      gnss_memory.size());
 
     Parser::Gnss1 parser1;
     Parser::Gnss2 parser2;
@@ -179,14 +180,14 @@ TEST(MemoryBocksParser, ParseEmlog)
     // Waterspeed : 1.25f(0x3fa00000), WaterspeedSD : 12.55f (0x4148cccd)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x43, 0x1a, 0x35, 0xc3,
         0x3f, 0xa0, 0x00, 0x00
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x3f, 0xa0, 0x00, 0x00,
@@ -197,7 +198,8 @@ TEST(MemoryBocksParser, ParseEmlog)
     std::vector<uint8_t> emlog_memory(memory1);
     emlog_memory.insert(emlog_memory.end(), memory2.begin(), memory2.end());
 
-    auto buffer = boost::asio::buffer(emlog_memory.data(), emlog_memory.size());
+    auto buffer = boost::asio::buffer(const_cast<const uint8_t*>(emlog_memory.data()),
+                                      emlog_memory.size());
 
     Parser::Emlog1 parser1;
     Parser::Emlog2 parser2;
@@ -244,7 +246,7 @@ TEST(MemoryBocksParser, ParseUsbl)
     // altSD : -1.5f (0xbfc00000)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x61, 0x62, 0x63, 0x64,
@@ -260,7 +262,7 @@ TEST(MemoryBocksParser, ParseUsbl)
         0xbf, 0xc0, 0x00, 0x00
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x61, 0x62, 0x63, 0x64,
@@ -276,7 +278,7 @@ TEST(MemoryBocksParser, ParseUsbl)
         0xbf, 0xc0, 0x00, 0x00
     };
 
-    std::vector<uint8_t> memory3{
+    const std::vector<uint8_t> memory3{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x61, 0x62, 0x63, 0x64,
@@ -297,7 +299,8 @@ TEST(MemoryBocksParser, ParseUsbl)
     usbl_memory.insert(usbl_memory.end(), memory2.begin(), memory2.end());
     usbl_memory.insert(usbl_memory.end(), memory3.begin(), memory3.end());
 
-    auto buffer = boost::asio::buffer(usbl_memory.data(), usbl_memory.size());
+    auto buffer = boost::asio::buffer(const_cast<const uint8_t*>(usbl_memory.data()),
+                                      usbl_memory.size());
 
     Parser::Usbl1 parser1;
     Parser::Usbl2 parser2;
@@ -357,7 +360,7 @@ TEST(MemoryBocksParser, ParseDepth)
     // Depth : 154.21f (0x431a35c3), DepthSD : 1.25f( 0x3fa00000 )
 
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x43, 0x1a, 0x35, 0xc3,
         0x3f, 0xa0, 0x00, 0x00
@@ -391,7 +394,7 @@ TEST(MemoryBocksParser, ParseDvlGroundSpeed)
     // xv1SD : 8.56f (0x4108f5c3), xv2SD : -2.4f (0xc019999a), xv3SD : 42.12f (0x42287ae1)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x43, 0x1a, 0x35, 0xc3,
@@ -404,7 +407,7 @@ TEST(MemoryBocksParser, ParseDvlGroundSpeed)
         0x42, 0x28, 0x7a, 0xe1
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x43, 0x1a, 0x35, 0xc3,
@@ -422,7 +425,8 @@ TEST(MemoryBocksParser, ParseDvlGroundSpeed)
                                  memory2.end());
 
     auto buffer =
-        boost::asio::buffer(dvlgroundspeed_memory.data(), dvlgroundspeed_memory.size());
+        boost::asio::buffer(const_cast<const uint8_t*>(dvlgroundspeed_memory.data()),
+                            dvlgroundspeed_memory.size());
 
     Parser::DvlGroundSpeed1 parser1;
     Parser::DvlGroundSpeed2 parser2;
@@ -473,7 +477,7 @@ TEST(MemoryBocksParser, ParseDvlWaterSpeed)
     // xv1SD : 8.56f (0x4108f5c3), xv2SD : -2.4f (0xc019999a), xv3SD : 42.12f (0x42287ae1)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x43, 0x1a, 0x35, 0xc3,
@@ -485,7 +489,7 @@ TEST(MemoryBocksParser, ParseDvlWaterSpeed)
         0x42, 0x28, 0x7a, 0xe1
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x43, 0x1a, 0x35, 0xc3,
@@ -503,7 +507,8 @@ TEST(MemoryBocksParser, ParseDvlWaterSpeed)
                                 memory2.end());
 
     auto buffer =
-        boost::asio::buffer(dvlwaterspeed_memory.data(), dvlwaterspeed_memory.size());
+        boost::asio::buffer(const_cast<const uint8_t*>(dvlwaterspeed_memory.data()),
+                            dvlwaterspeed_memory.size());
 
     Parser::DvlWaterSpeed1 parser1;
     Parser::DvlWaterSpeed2 parser2;
@@ -544,7 +549,7 @@ TEST(MemoryBocksParser, ParseSoundVelocity)
     // Validity Time : 254 (0x000000fe), Speed of sound : 154.21f (0x431a35c3)
 
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x43, 0x1a, 0x35, 0xc3
     };
@@ -568,7 +573,7 @@ TEST(MemoryBocksParser, ParseDmi)
     // Validity Time : 254 (0x000000fe), Pulse count : 154 (0x0000009a)
 
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x00, 0x00, 0x00, 0x9a
     };
@@ -610,7 +615,7 @@ TEST(MemoryBocksParser, ParseLbl)
     // 0x3fa00000 ), rangeSD : 12.55f (0x4148cccd)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x00,
         0x61, 0x62, 0x63, 0x64,
@@ -624,7 +629,7 @@ TEST(MemoryBocksParser, ParseLbl)
         0x41, 0x48, 0xcc, 0xcd
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x00,
         0x61, 0x62, 0x63, 0x64,
@@ -638,7 +643,7 @@ TEST(MemoryBocksParser, ParseLbl)
         0x41, 0x48, 0xcc, 0xcd
     };
 
-    std::vector<uint8_t> memory3{
+    const std::vector<uint8_t> memory3{
         0x00, 0x00, 0x00, 0xfe,
         0x00,
         0x61, 0x62, 0x63, 0x64,
@@ -652,7 +657,7 @@ TEST(MemoryBocksParser, ParseLbl)
         0x41, 0x48, 0xcc, 0xcd
     };
 
-    std::vector<uint8_t> memory4{
+    const std::vector<uint8_t> memory4{
         0x00, 0x00, 0x00, 0x3a,
         0x00,
         0x61, 0x62, 0x63, 0x64,
@@ -672,7 +677,8 @@ TEST(MemoryBocksParser, ParseLbl)
     lbl_memory.insert(lbl_memory.end(), memory3.begin(), memory3.end());
     lbl_memory.insert(lbl_memory.end(), memory4.begin(), memory4.end());
 
-    auto buffer = boost::asio::buffer(lbl_memory.data(), lbl_memory.size());
+    auto buffer = boost::asio::buffer(const_cast<const uint8_t*>(lbl_memory.data()),
+                                      lbl_memory.size());
 
     Parser::Lbl1 parser1;
     Parser::Lbl2 parser2;
@@ -744,19 +750,19 @@ TEST(MemoryBocksParser, ParseEventMarker)
     // Pulse count : 58 (0x0000003a)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x00, 0x00, 0x00, 0x9a
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x18,
         0x00, 0x00, 0x00, 0xfe
     };
 
-    std::vector<uint8_t> memory3{
+    const std::vector<uint8_t> memory3{
         0x00, 0x00, 0x00, 0xfe,
         0x04,
         0x00, 0x00, 0x00, 0x3a
@@ -766,8 +772,8 @@ TEST(MemoryBocksParser, ParseEventMarker)
     eventmarker_memory.insert(eventmarker_memory.end(), memory2.begin(), memory2.end());
     eventmarker_memory.insert(eventmarker_memory.end(), memory3.begin(), memory3.end());
 
-    auto buffer =
-        boost::asio::buffer(eventmarker_memory.data(), eventmarker_memory.size());
+    auto buffer = boost::asio::buffer(
+        const_cast<const uint8_t*>(eventmarker_memory.data()), eventmarker_memory.size());
 
     Parser::EventMarkerA parser1;
     Parser::EventMarkerB parser2;
@@ -805,7 +811,7 @@ TEST(MemoryBocksParser, ParseTurretAngles)
     // Elevation putch : -0.005f (0xbba3d70a)
 
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
@@ -839,7 +845,7 @@ TEST(MemoryBocksParser, ParseVtg)
     // Elevation putch : -0.005f (0xbba3d70a)
 
     // clang-format off
-    std::vector<uint8_t> memory1{
+    const std::vector<uint8_t> memory1{
         0x00, 0x00, 0x00, 0xfe,
         0x18,
         0x3f, 0xa0, 0x00, 0x00,
@@ -847,7 +853,7 @@ TEST(MemoryBocksParser, ParseVtg)
         0xbb, 0xa3, 0xd7, 0x0a
     };
 
-    std::vector<uint8_t> memory2{
+    const std::vector<uint8_t> memory2{
         0x00, 0x00, 0x00, 0x3a,
         0x04,
         0x3f, 0xa0, 0x00, 0x00,
@@ -858,7 +864,8 @@ TEST(MemoryBocksParser, ParseVtg)
     std::vector<uint8_t> vtg_memory(memory1);
     vtg_memory.insert(vtg_memory.end(), memory2.begin(), memory2.end());
 
-    auto buffer = boost::asio::buffer(vtg_memory.data(), vtg_memory.size());
+    auto buffer = boost::asio::buffer(const_cast<const uint8_t*>(vtg_memory.data()),
+                                      vtg_memory.size());
 
     Parser::Vtg1 parser1;
     Parser::Vtg2 parser2;
@@ -892,7 +899,7 @@ TEST(MemoryBocksParser, ParseLogBook)
     // Pulse count : abcd (0x61626364)
 
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0xfe,
         0x00, 0x00, 0x03, 0x11,
         0x61, 0x62, 0x63, 0x64,

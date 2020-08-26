@@ -1,21 +1,21 @@
 #include <gtest/gtest.h>
 
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/raw_rotation_rate_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/raw_rotation_rate_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position_deviation.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseRotationAccelerationVesselFrame)
 {
     // xv1 : -1.5f (0xbfc00000), xv2 : 1.25f( 0x3fa00000 ), xv3 : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -41,7 +41,7 @@ TEST(MemoryBocksParser, ParseRotationAccelerationVesselFrameDeviation)
     // xv1SD : -1.5f (0xbfc00000), xv2SD : 1.25f( 0x3fa00000 ), xv3SD : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -73,7 +73,7 @@ TEST(MemoryBocksParser, ParseRawRotationRateVesselFrame)
     // xv1 : -1.5f (0xbfc00000), xv2 : 1.25f( 0x3fa00000 ), xv3 : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -99,7 +99,7 @@ TEST(MemoryBocksParser, ParseVehicleAttitudeHeading)
     // xv1 : -1.5f (0xbfc00000), xv2 : 1.25f( 0x3fa00000 ), xv3 : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -125,7 +125,7 @@ TEST(MemoryBocksParser, ParseVehicleAttitudeHeadingDeviation)
     // xv1SD : -1.5f (0xbfc00000), xv2SD : 1.25f( 0x3fa00000 ), xv3SD : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -154,7 +154,7 @@ TEST(MemoryBocksParser, ParseVehiclePosition)
     // latitude : 25.68d (0x4039ae147ae147ae), longitude : -4.75d (0xc013000000000000),
     // altitude ref : 1 (0x01), altitude : 154.21f (0x43 1a 35 c3)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x40, 0x39, 0xae, 0x14,
         0x7a, 0xe1, 0x47, 0xae,
         0xc0, 0x13, 0x00, 0x00,
@@ -184,7 +184,7 @@ TEST(MemoryBocksParser, ParseVehiclePositionDeviation)
     // NorthSD : 1.25f( 0x3fa00000 ), EastSD : 12.55f (0x4148cccd), NEcorr : -1.5f
     // (0xbfc00000), altSD : -0.005f(0xbba3d70a)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf, 0xc0, 0x00, 0x00,

@@ -1,69 +1,71 @@
-#include <iXblue_stdbin_decoder/stdbin_decoder.h>
+#include <ixblue_stdbin_decoder/stdbin_decoder.h>
 
 /* Navigation data blocs */
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_algorithm_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_system_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_user_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/course_speed_over_ground.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heading_roll_pitch_rate.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heave_surge_sway_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_algorithm_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_system_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_user_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/raw_acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/realtime_heave_surge_sway.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/sensor_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/smart_heave.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/system_date.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/temperatures.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_algorithm_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_system_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_user_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/course_speed_over_ground.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heading_roll_pitch_rate.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heave_surge_sway_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_algorithm_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_system_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_user_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/raw_acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/realtime_heave_surge_sway.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/sensor_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/smart_heave.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/system_date.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/temperatures.h>
 
 /* Extended navigation data blocs */
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/raw_rotation_rate_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/raw_rotation_rate_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/rotation_acceleration_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_attitude_heading_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/extended_navigation_data/vehicle_position_deviation.h>
 
 /* External data blocs */
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/depth.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dmi.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_ground_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_water_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/emlog.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/eventmarker.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/gnss.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/lbl.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/logbook.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/sound_velocity.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/turret_angles.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/usbl.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/depth.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dmi.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_ground_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/dvl_water_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/emlog.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/eventmarker.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/gnss.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/lbl.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/logbook.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/sound_velocity.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/turret_angles.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/usbl.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/utc.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/external_data/vtg.h>
 
-using namespace StdBinDecoder;
 using namespace boost::asio;
 
-StdBinDecoder::StdBinDecoder::StdBinDecoder()
+namespace ixblue_stdbin_decoder
+{
+
+StdBinDecoder::StdBinDecoder()
     : navigationParsers(
           {std::make_shared<Parser::AttitudeHeading>(),
            std::make_shared<Parser::AttitudeHeadingDeviation>(),
@@ -143,64 +145,91 @@ StdBinDecoder::StdBinDecoder::StdBinDecoder()
 
 {}
 
-bool StdBinDecoder::StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
+bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
 {
     std::copy(std::begin(frameData), std::end(frameData),
               std::back_inserter(currentFrame));
 
     // Now, we will look for version of the received frame and wait to have receive enough
     // data to parse full header.
-    if(haveEnoughByteToParseHeader() == false)
+    if(haveEnoughByteToParseHeader(currentFrame) == false)
     {
         return false;
     }
 
-    boost::asio::mutable_buffer buffer(currentFrame.data(), currentFrame.size());
+    boost::asio::const_buffer buffer(currentFrame.data(), currentFrame.size());
     lastHeader = parseHeader(buffer);
     // if we didn't receive the whole frame, we return false, and wait for the next
     // memory chunck.
     if(currentFrame.size() < lastHeader.telegramSize) return false;
 
-    for(const auto& parser : navigationParsers)
+    if(lastHeader.messageType == Data::NavHeader::MessageType::NavData)
     {
-        parser->parse(buffer, lastHeader.navigationBitMask, lastParsed);
-    }
-
-    if(lastHeader.extendedNavigationBitMask.is_initialized())
-    {
-        for(const auto& parser : extendedNavigationParsers)
+        for(const auto& parser : navigationParsers)
         {
-            parser->parse(buffer, lastHeader.extendedNavigationBitMask.get(), lastParsed);
+            parser->parse(buffer, lastHeader.navigationBitMask, lastParsed);
+        }
+
+        if(lastHeader.extendedNavigationBitMask.is_initialized())
+        {
+            for(const auto& parser : extendedNavigationParsers)
+            {
+                parser->parse(buffer, lastHeader.extendedNavigationBitMask.get(),
+                              lastParsed);
+            }
+        }
+
+        for(const auto& parser : externalDataParsers)
+        {
+            parser->parse(buffer, lastHeader.externalSensorBitMask, lastParsed);
         }
     }
-
-    for(const auto& parser : externalDataParsers)
+    else if(lastHeader.messageType == Data::NavHeader::MessageType::Answer)
     {
-        parser->parse(buffer, lastHeader.externalSensorBitMask, lastParsed);
+        lastAnswer.clear();
+        const size_t answerSize =
+            lastHeader.telegramSize - ANSWER_HEADER_SIZE - CHECKSUM_SIZE;
+        lastAnswer.resize(answerSize);
+        buffer_copy(boost::asio::buffer(lastAnswer), buffer, answerSize);
+        buffer = buffer + answerSize;
     }
 
     currentFrame.clear(); // we clear the current frame to be ready for the next one.
     return true;
 }
 
-bool StdBinDecoder::StdBinDecoder::haveEnoughByteToParseHeader(void) const
+bool StdBinDecoder::haveEnoughByteToParseHeader(const std::vector<uint8_t>& frame) const
 {
-    if(currentFrame.size() > 3)
+    if(frame.size() > 3)
     {
-        uint8_t protocol_version = currentFrame.at(2);
-        switch(protocol_version)
+        const uint8_t protocol_version = frame.at(2);
+        if(frame[0] == 'I' && frame[1] == 'X')
         {
-        case 0x02: return currentFrame.size() >= HEADER_SIZE_V2;
-        case 0x03: return currentFrame.size() >= HEADER_SIZE_V3;
-        case 0x04: return currentFrame.size() >= HEADER_SIZE_V4;
-        case 0x05: return currentFrame.size() >= HEADER_SIZE_V5;
-        default: throw std::runtime_error("Un handled protocol version");
+            switch(protocol_version)
+            {
+            case 0x02: return frame.size() >= HEADER_SIZE_V2;
+            case 0x03: return frame.size() >= HEADER_SIZE_V3;
+            case 0x04: return frame.size() >= HEADER_SIZE_V4;
+            case 0x05: return frame.size() >= HEADER_SIZE_V5;
+            default: throw std::runtime_error("Unhandled protocol version");
+            }
+        }
+        else if(frame[0] == 'A' && frame[1] == 'N')
+        {
+            if(protocol_version >= 3 && protocol_version <= 5)
+            {
+                return frame.size() >= ANSWER_HEADER_SIZE;
+            }
+            else
+            {
+                throw std::runtime_error("Unhandled protocol version for an answer");
+            }
         }
     }
     return false;
 }
 
-Data::NavHeader StdBinDecoder::StdBinDecoder::parseHeader(mutable_buffer& buffer) const
+Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
 {
     // We know we have enough bytes to parse the whole header because it had been
     // checked before.
@@ -211,10 +240,13 @@ Data::NavHeader StdBinDecoder::StdBinDecoder::parseHeader(mutable_buffer& buffer
     {
         throw std::runtime_error("Not enough bytes in buffer to parse header");
     }
-    if(checkHeader(buffer) == false)
+
+    res.messageType = getHeaderType(buffer);
+    if(res.messageType == Data::NavHeader::MessageType::Unknown)
     {
-        throw std::runtime_error("Incorrect frame header, expected 'I', 'X'");
+        throw std::runtime_error("Incorrect frame header, expected 'I', 'X' or 'A', 'N'");
     }
+
     buffer >> res.protocolVersion;
     if(res.protocolVersion < 2 && res.protocolVersion > 5)
     {
@@ -222,31 +254,51 @@ Data::NavHeader StdBinDecoder::StdBinDecoder::parseHeader(mutable_buffer& buffer
             "Unknown protocol version. Supported protocol are version 2->5");
     }
 
-    buffer >> res.navigationBitMask;
-    if(res.protocolVersion > 2)
+    if(res.messageType == Data::NavHeader::MessageType::NavData)
     {
-        uint32_t extendedNavigationMask;
-        buffer >> extendedNavigationMask;
-        res.extendedNavigationBitMask = extendedNavigationMask;
+        buffer >> res.navigationBitMask;
+        if(res.protocolVersion > 2)
+        {
+            uint32_t extendedNavigationMask;
+            buffer >> extendedNavigationMask;
+            res.extendedNavigationBitMask = extendedNavigationMask;
+        }
+        buffer >> res.externalSensorBitMask;
+        uint16_t navigationSize = 0;
+        if(res.protocolVersion > 3)
+        {
+            buffer >> navigationSize;
+        }
+        buffer >> res.telegramSize;
+        buffer >> res.navigationDataValidityTime_100us;
+        uint32_t counter;
+        buffer >> counter;
     }
-    buffer >> res.externalSensorBitMask;
-    uint16_t navigationSize = 0;
-    if(res.protocolVersion > 3)
+    else
     {
-        buffer >> navigationSize;
+        buffer >> res.telegramSize;
     }
-    buffer >> res.telegramSize;
-    buffer >> res.navigationDataValidityTime_100us;
-    uint32_t counter;
-    buffer >> counter;
     return res;
 }
 
-bool StdBinDecoder::StdBinDecoder::checkHeader(mutable_buffer& buffer) const
+Data::NavHeader::MessageType StdBinDecoder::getHeaderType(const_buffer& buffer) const
 {
     // We already checked the buffer size before calling this method.
-    uint8_t I, X;
-    buffer >> I;
-    buffer >> X;
-    return I == 'I' && X == 'X';
+    uint8_t h1, h2;
+    buffer >> h1;
+    buffer >> h2;
+
+    if(h1 == 'I' && h2 == 'X')
+    {
+        return Data::NavHeader::MessageType::NavData;
+    }
+
+    if(h1 == 'A' && h2 == 'N')
+    {
+        return Data::NavHeader::MessageType::Answer;
+    }
+
+    return Data::NavHeader::MessageType::Unknown;
 }
+
+} // namespace ixblue_stdbin_decoder

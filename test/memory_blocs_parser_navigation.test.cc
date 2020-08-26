@@ -1,45 +1,45 @@
 #include <gtest/gtest.h>
 
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_algorithm_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_system_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_user_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/course_speed_over_ground.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heading_roll_pitch_rate.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heave_surge_sway_speed.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_algorithm_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_system_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_user_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/raw_acceleration_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/realtime_heave_surge_sway.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/sensor_status.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/smart_heave.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame_deviation.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_vessel_frame.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/system_date.h>
-#include <iXblue_stdbin_decoder/memory_blocs_parsers/navigation_data/temperatures.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/acceleration_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_algorithm_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_system_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ahrs_user_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_heading_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/attitude_quaternion_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/course_speed_over_ground.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/current_geographic_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heading_roll_pitch_rate.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/heave_surge_sway_speed.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_algorithm_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_system_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/ins_user_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/position_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/raw_acceleration_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/realtime_heave_surge_sway.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/rotation_rate_vessel_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/sensor_status.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/smart_heave.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_geographic_frame_deviation.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/speed_vessel_frame.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/system_date.h>
+#include <ixblue_stdbin_decoder/memory_blocs_parsers/navigation_data/temperatures.h>
 
-using namespace StdBinDecoder;
+using namespace ixblue_stdbin_decoder;
 
 TEST(MemoryBocksParser, ParseAttitudeAndHeading)
 {
     // Heading : 1.25f( 0x3fa00000 ), Roll : 12.55f (0x4148cccd), Pitch : -1.5f
     // (0xbfc00000)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf, 0xc0, 0x00, 0x00
@@ -65,7 +65,7 @@ TEST(MemoryBocksParser, ParseAttitudeAndHeadingDeviation)
     // HeadingSD : 1.25f( 0x3fa00000 ), RollSD : 12.55f (0x4148cccd), PitchSD : -1.5f
     // (0xbfc00000)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf,0xc0, 0x00, 0x00
@@ -91,7 +91,7 @@ TEST(MemoryBocksParser, ParseRealTimeHeaveSurgeSway)
     // Heave without BdL : 1.25f( 0x3fa00000 ), Heave : 12.55f (0x4148cccd), Surge : -1.5f
     // (0xbfc00000), Sway : -0.005f(0xbba3d70a)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf, 0xc0, 0x00, 0x00,
@@ -119,7 +119,7 @@ TEST(MemoryBlockParser, ParseSmartHeave)
     // Time : 125 = 0x0000007D (in big endian)
     // Heave : 1.25f( 0x3fa00000 )
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x00, 0x7D,
         0x3f, 0xa0, 0x00, 0x00,
     };
@@ -140,7 +140,7 @@ TEST(MemoryBocksParser, ParseHeadingRollPitchRate)
     // Heading rate : -1.5f (0xbfc00000), Roll rate : 1.25f( 0x3fa00000 ),
     // Pitch rate : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -166,7 +166,7 @@ TEST(MemoryBocksParser, ParseRotationRateVesselFrame)
     // XV1 : -1.5f (0xbfc00000), XV2 : 1.25f( 0x3fa00000 ),
     // XV3 : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -192,7 +192,7 @@ TEST(MemoryBocksParser, ParseAccelerationVesselFrame)
     // XV1 : -1.5f (0xbfc00000), XV2 : 1.25f( 0x3fa00000 ),
     // XV3 : 12.55 (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -218,7 +218,7 @@ TEST(MemoryBocksParser, ParsePosition)
     // latitude : 25.68d (0x4039ae147ae147ae), longitude : -4.75d (0xc013000000000000),
     // altitude ref : 1 (0x01), altitude : 154.21f (0x431a35c3)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x40, 0x39, 0xae, 0x14,
         0x7a, 0xe1, 0x47, 0xae,
         0xc0, 0x13, 0x00, 0x00,
@@ -248,7 +248,7 @@ TEST(MemoryBocksParser, ParsePositionDeviation)
     // NorthSD : 1.25f( 0x3fa00000 ), EastSD : 12.55f (0x4148cccd), NEcorr : -1.5f
     // (0xbfc00000), altSD : -0.005f(0xbba3d70a)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf, 0xc0, 0x00, 0x00,
@@ -276,7 +276,7 @@ TEST(MemoryBocksParser, ParseSpeedGeographicFrame)
     // North : -1.5f (0xbfc00000), East : 1.25f( 0x3fa00000 ),
     // Up : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -302,7 +302,7 @@ TEST(MemoryBocksParser, ParseSpeedGeographicFrameDeviation)
     // NorthSD : -1.5f (0xbfc00000), EastSD : 1.25f( 0x3fa00000 ),
     // UpSD : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -328,7 +328,7 @@ TEST(MemoryBocksParser, ParseCurrentGeographicFrameDeviation)
 {
     // NorthSD : -1.5f (0xbfc00000), EastSD : 1.25f( 0x3fa00000 )
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00
     };
@@ -353,7 +353,7 @@ TEST(MemoryBocksParser, ParseSystemDate)
 {
     // Day : 28 (0x1c), Month : 8 (0x08), Year : 2020 (0x07e4)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x1c,
         0x08,
         0x07, 0xe4
@@ -378,7 +378,7 @@ TEST(MemoryBocksParser, ParseSensorStatus)
 {
     // Status 1 : 532 (0x00000214), Status 2 : 17 (0x00000011)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14,
         0x00, 0x00, 0x00, 0x11
     };
@@ -402,7 +402,7 @@ TEST(MemoryBocksParser, ParseINSAlgorithmStatus)
     // Status 1 : 532 (0x00000214), Status 2 : 42 (0x0000002a)
     // Status 3 : 47826 (0x0000bad2), Status 4 : 17 (0x00000011)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14,
         0x00, 0x00, 0x00, 0x2a,
         0x00, 0x00, 0xba, 0xd2,
@@ -430,7 +430,7 @@ TEST(MemoryBocksParser, ParseINSSystemStatus)
     // Status 1 : 532 (0x00000214), Status 2 : 42 (0x0000002a)
     // Status 3 : 47826 (0x0000bad2)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14,
         0x00, 0x00, 0x00, 0x2a,
         0x00, 0x00, 0xba, 0xd2
@@ -455,7 +455,7 @@ TEST(MemoryBocksParser, ParseINSUserStatus)
 {
     // Status : 532 (0x00000214)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14,
     };
     // clang-format on
@@ -476,7 +476,7 @@ TEST(MemoryBocksParser, ParseAHRSAlgorithmStatus)
 {
     // Status : 532 (0x00000214)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14
     };
     // clang-format on
@@ -498,7 +498,7 @@ TEST(MemoryBocksParser, ParseAHRSSystemStatus)
     // Status 1 : 532 (0x00000214), Status 2 : 42 (0x0000002a)
     // Status 3 : 47826 (0x0000bad2)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14,
         0x00, 0x00, 0x00, 0x2a,
         0x00, 0x00, 0xba, 0xd2
@@ -523,7 +523,7 @@ TEST(MemoryBocksParser, ParseAHRSUserStatus)
 {
     // Status : 532 (0x00000214)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x00, 0x00, 0x02, 0x14
     };
     // clang-format on
@@ -545,7 +545,7 @@ TEST(MemoryBocksParser, ParseHeaveSurgeSwaySpeed)
     // rtHeaveSpeed : -1.5f (0xbfc00000), SurgeSpeed : 1.25f( 0x3fa00000 ),
     // SwaySpeed : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -570,7 +570,7 @@ TEST(MemoryBocksParser, ParseSpeedVesselFrame)
 {
     // xv1 : -1.5f (0xbfc00000), xv2 : 1.25f( 0x3fa00000 ), xv3 : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -595,7 +595,7 @@ TEST(MemoryBocksParser, ParseAccelerationGeographicFrame)
 {
     // north : -1.5f (0xbfc00000), east : 1.25f( 0x3fa00000 ), up : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -620,7 +620,7 @@ TEST(MemoryBocksParser, ParseourseSpeedoverGrounde)
 {
     // course : -1.5f (0xbfc00000), speed : 1.25f( 0x3fa00000 )
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00
     };
@@ -643,7 +643,7 @@ TEST(MemoryBocksParser, ParseTemperatures)
 {
     // FOG : -1.5f (0xbfc00000), Acc : 1.25f( 0x3fa00000 ), Board : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -669,7 +669,7 @@ TEST(MemoryBocksParser, ParseAttitudeQuaternion)
     // Q0 : 1.25f ( 0x3fa00000 ), Q1 : 12.55f (0x4148cccd), Q2 : -1.5f (0xbfc00000), Q3 :
     // -0.005f (0xbba3d70a)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd,
         0xbf, 0xc0, 0x00, 0x00,
@@ -696,7 +696,7 @@ TEST(MemoryBocksParser, ParseAttitudeQuaternionDeviation)
 {
     // xi1 : -1.5f (0xbfc00000), xi2 : 1.25f( 0x3fa00000 ), xi3 : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -721,7 +721,7 @@ TEST(MemoryBocksParser, ParseRawAccelerationVesselFrame)
 {
     // xv1 : -1.5f (0xbfc00000), xv2 : 1.25f( 0x3fa00000 ), xv3 : 12.55f (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -747,7 +747,7 @@ TEST(MemoryBocksParser, ParseAccelerationVesselFrameDeviation)
     // xv1SD : -1.5f (0xbfc00000), xv2SD : 1.25f( 0x3fa00000 ), xv3SD : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
@@ -776,7 +776,7 @@ TEST(MemoryBocksParser, ParseRotationRateVesselFrameDeviation)
     // xv1SD : -1.5f (0xbfc00000), xv2SD : 1.25f( 0x3fa00000 ), xv3SD : 12.55f
     // (0x4148cccd)
     // clang-format off
-    std::vector<uint8_t> memory{
+    const std::vector<uint8_t> memory{
         0xbf, 0xc0, 0x00, 0x00,
         0x3f, 0xa0, 0x00, 0x00,
         0x41, 0x48, 0xcc, 0xcd
