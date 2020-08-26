@@ -1,8 +1,10 @@
-#include <boost/asio/buffered_stream.hpp>
-#include <boost/filesystem.hpp>
-#include <fstream>
 #include <gtest/gtest.h>
 #include <ixblue_stdbin_decoder/stdbin_decoder.h>
+
+#include "datasets/log_STDBIN_V2.h"
+#include "datasets/log_STDBIN_V3.h"
+#include "datasets/log_STDBIN_V4.h"
+#include "datasets/log_STDBIN_V5.h"
 
 TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
 {
@@ -34,18 +36,9 @@ TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
 
 TEST(StdBinDecoder, WeCanParseV2Protocol)
 {
-    std::ifstream file("../test/datasets/log_STDBIN_V2.log",
-                       std::ios_base::in | std::ios_base::binary);
-    ASSERT_TRUE(file);
-    file.seekg(0, std::ios::end);
-    uint64_t length = file.tellg();
-    file.seekg(0);
-    std::vector<uint8_t> memory(length);
-    file.read(reinterpret_cast<char*>(memory.data()), length);
-
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(memory));
+    EXPECT_TRUE(parser.parse(log_STDBIN_V2));
     auto result = parser.getLastNavData();
 
     EXPECT_TRUE(result.attitudeHeading.is_initialized());
@@ -182,27 +175,18 @@ TEST(StdBinDecoder, WeCanParseV2Protocol)
 
 TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
 {
-    std::string path = std::string("../test/datasets/log_STDBIN_V2.log");
-    std::ifstream file(path, std::ios_base::in | std::ios_base::binary);
-    ASSERT_TRUE(file);
-    file.seekg(0, std::ios::end);
-    uint64_t length = file.tellg();
-    file.seekg(0);
-    std::vector<uint8_t> memory(length);
-    file.read(reinterpret_cast<char*>(memory.data()), length);
-
     // By instanciating parser out of the loop, we also test that we can parse
     // multiple messages.
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    for(size_t i = 1; i < memory.size(); ++i)
+    for(size_t i = 1; i < log_STDBIN_V2.size(); ++i)
     {
         std::vector<uint8_t> part1, part2;
-        auto cutPoint = memory.begin();
+        auto cutPoint = log_STDBIN_V2.begin();
         // we cut the packet everywhere:
         std::advance(cutPoint, i);
-        std::copy(std::begin(memory), cutPoint, std::back_inserter(part1));
-        std::copy(cutPoint, std::end(memory), std::back_inserter(part2));
+        std::copy(std::begin(log_STDBIN_V2), cutPoint, std::back_inserter(part1));
+        std::copy(cutPoint, std::end(log_STDBIN_V2), std::back_inserter(part2));
 
         EXPECT_FALSE(parser.parse(part1));
         EXPECT_TRUE(parser.parse(part2));
@@ -217,18 +201,9 @@ TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
 
 TEST(StdBinDecoder, WeCanParseV3Protocol)
 {
-    std::ifstream file("../test/datasets/log_STDBIN_V3.log",
-                       std::ios_base::in | std::ios_base::binary);
-    ASSERT_TRUE(file);
-    file.seekg(0, std::ios::end);
-    uint64_t length = file.tellg();
-    file.seekg(0);
-    std::vector<uint8_t> memory(length);
-    file.read(reinterpret_cast<char*>(memory.data()), length);
-
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(memory));
+    EXPECT_TRUE(parser.parse(log_STDBIN_V3));
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
@@ -567,18 +542,9 @@ TEST(StdBinDecoder, WeCanParseV3Protocol)
 
 TEST(StdBinDecoder, WeCanParseV4Protocol)
 {
-    std::ifstream file("../test/datasets/log_STDBIN_V4.log",
-                       std::ios_base::in | std::ios_base::binary);
-    ASSERT_TRUE(file);
-    file.seekg(0, std::ios::end);
-    uint64_t length = file.tellg();
-    file.seekg(0);
-    std::vector<uint8_t> memory(length);
-    file.read(reinterpret_cast<char*>(memory.data()), length);
-
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(memory));
+    EXPECT_TRUE(parser.parse(log_STDBIN_V4));
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
@@ -827,18 +793,9 @@ TEST(StdBinDecoder, WeCanParseV4Protocol)
 
 TEST(StdBinDecoder, WeCanParseV5Protocol)
 {
-    std::ifstream file("../test/datasets/log_STDBIN_V5.log",
-                       std::ios_base::in | std::ios_base::binary);
-    ASSERT_TRUE(file);
-    file.seekg(0, std::ios::end);
-    uint64_t length = file.tellg();
-    file.seekg(0);
-    std::vector<uint8_t> memory(length);
-    file.read(reinterpret_cast<char*>(memory.data()), length);
-
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(memory));
+    EXPECT_TRUE(parser.parse(log_STDBIN_V5));
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
