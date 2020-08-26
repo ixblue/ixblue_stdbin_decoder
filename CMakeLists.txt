@@ -101,6 +101,9 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
+# Install catkin package.xml
+install(FILES package.xml DESTINATION share/${PROJECT_NAME})
+
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/ixblue_stdbin_decoder)
 
 install(EXPORT ixblue_stdbin_decoder-targets
