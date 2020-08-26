@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(iXblue_stdbin_decoder
+project(ixblue_stdbin_decoder
   VERSION 0.1
   DESCRIPTION "iXblue parsing library for protocol iXblue stdbin"
   LANGUAGES CXX
@@ -101,21 +101,21 @@ install(
 
 install(EXPORT iXblueStdbinDecoderTargets
   FILE iXblueStdbinDecoderTargets.cmake
-  NAMESPACE iXblue_stdbin_decoder::
-  DESTINATION lib/cmake/iXblue_stdbin_decoder
+  NAMESPACE ixblue_stdbin_decoder::
+  DESTINATION lib/cmake/ixblue_stdbin_decoder
 )
 
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file("iXblueStdbinDecoderVersion.cmake"
+write_basic_package_version_file("ixblue_stdbin_decoder-version.cmake"
   VERSION ${PACKAGE_VERSION}
   COMPATIBILITY SameMajorVersion
 )
 
-configure_file(cmake/iXblueStdbinDecoderConfig.cmake.in iXblueStdbinDecoderConfig.cmake @ONLY)
+configure_file(cmake/ixblue_stdbin_decoder-config.cmake.in ixblue_stdbin_decoder-config.cmake @ONLY)
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/iXblueStdbinDecoderConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/iXblueStdbinDecoderVersion.cmake"
-  DESTINATION lib/cmake/iXblue_stdbin_decoder
+    "${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-version.cmake"
+  DESTINATION lib/cmake/ixblue_stdbin_decoder
 )
 
 ##########

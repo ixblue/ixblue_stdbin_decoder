@@ -1,4 +1,4 @@
-#include <iXblue_stdbin_decoder/memory_block_parser.h>
+#include <ixblue_stdbin_decoder/memory_block_parser.h>
 #include <boost/endian/conversion.hpp>
 
 namespace ixblue_stdbin_decoder

@@ -2,7 +2,7 @@
 #include <boost/filesystem.hpp>
 #include <fstream>
 #include <gtest/gtest.h>
-#include <iXblue_stdbin_decoder/stdbin_decoder.h>
+#include <ixblue_stdbin_decoder/stdbin_decoder.h>
 
 TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
 {
