@@ -70,10 +70,14 @@ endif()
 ## Declare a C++ library
 add_library(${PROJECT_NAME} SHARED src/memory_block_parser.cpp src/stdbin_decoder.cpp)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost)
-target_include_directories(${PROJECT_NAME} PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+    Boost::system
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
@@ -85,37 +89,43 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 ## Mark executables and/or libraries for installation
 install(
   TARGETS ${PROJECT_NAME}
-  EXPORT iXblueStdbinDecoderTargets
+  EXPORT ixblue_stdbin_decoder-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include
   DESTINATION ${CMAKE_INSTALL_PREFIX}
   FILES_MATCHING PATTERN "*.h"
-  PATTERN ".git" EXCLUDE
 )
 
-install(EXPORT iXblueStdbinDecoderTargets
-  FILE iXblueStdbinDecoderTargets.cmake
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/ixblue_stdbin_decoder)
+
+install(EXPORT ixblue_stdbin_decoder-targets
+  FILE ixblue_stdbin_decoder-targets.cmake
   NAMESPACE ixblue_stdbin_decoder::
-  DESTINATION lib/cmake/ixblue_stdbin_decoder
+  DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file("ixblue_stdbin_decoder-version.cmake"
-  VERSION ${PACKAGE_VERSION}
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/ixblue_stdbin_decoder-config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-config.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+  PATH_VARS CMAKE_INSTALL_INCLUDEDIR
+)
+
+write_basic_package_version_file(ixblue_stdbin_decoder-version.cmake
+  VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion
 )
 
-configure_file(cmake/ixblue_stdbin_decoder-config.cmake.in ixblue_stdbin_decoder-config.cmake @ONLY)
+#configure_file(cmake/ixblue_stdbin_decoder-config.cmake.in ixblue_stdbin_decoder-config.cmake @ONLY)
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-version.cmake"
-  DESTINATION lib/cmake/ixblue_stdbin_decoder
+  ${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/ixblue_stdbin_decoder-version.cmake
+  DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 ##########
