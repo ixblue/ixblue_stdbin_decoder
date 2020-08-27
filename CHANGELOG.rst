@@ -2,6 +2,11 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Reduce minimum required CMake version to allow build on Debian Stretch for ROS Melodic
+* Contributors: Romain Reignier
+
 0.1.0 (2020-08-26)
 ------------------
 * Add package.xml to build with catkin
