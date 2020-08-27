@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.1)
 project(ixblue_stdbin_decoder
   VERSION 0.1
-  DESCRIPTION "iXblue parsing library for protocol iXblue stdbin"
   LANGUAGES CXX
 )
 
@@ -74,13 +73,15 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+  PRIVATE
+    ${Boost_INCLUDE_DIRS}
 )
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
-    Boost::system
+    ${Boost_LIBRARIES}
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_auto_type cxx_constexpr cxx_lambdas cxx_nullptr cxx_range_for)
 
 #############
 ## Install ##
