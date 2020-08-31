@@ -2,7 +2,7 @@
 
 include(CMakeFindDependencyMacro)
 
-find_dependency(Boost REQUIRED COMPONENTS system)
+find_dependency(Boost)
 
 set_and_check(ixblue_stdbin_decoder_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
 set(ixblue_stdbin_decoder_LIBRARIES ixblue_stdbin_decoder::ixblue_stdbin_decoder)
