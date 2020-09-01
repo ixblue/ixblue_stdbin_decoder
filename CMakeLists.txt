@@ -88,6 +88,10 @@ add_executable(udp_listener examples/udp_listener.cpp)
 target_link_libraries(udp_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
 set_target_properties(udp_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
 
+add_executable(tcp_client examples/tcp_client.cpp)
+target_link_libraries(tcp_client ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+set_target_properties(tcp_client PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+
 #############
 ## Install ##
 #############
