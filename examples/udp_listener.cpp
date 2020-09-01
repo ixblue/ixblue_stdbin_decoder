@@ -1,8 +1,8 @@
+#include <array>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#include <vector>
 
 #include <boost/asio.hpp>
 
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     boost::asio::io_service io;
     udp::socket socket{io, udp::endpoint(udp::v4(), port)};
 
-    std::vector<uint8_t> data(9000);
+    std::array<uint8_t, 9000> recvBuffer;
     udp::endpoint senderEndpoint;
     ixblue_stdbin_decoder::StdBinDecoder decoder;
     auto lastPrint = std::chrono::steady_clock::now();
@@ -38,8 +38,10 @@ int main(int argc, char** argv)
 
     while(true)
     {
-        socket.receive_from(boost::asio::buffer(data), senderEndpoint);
-        if(decoder.parse(data))
+        const auto bytesRead =
+            socket.receive_from(boost::asio::buffer(recvBuffer), senderEndpoint);
+        decoder.addNewData(recvBuffer.data(), bytesRead);
+        while(decoder.parseNextFrame())
         {
             if((std::chrono::steady_clock::now() - lastPrint) > std::chrono::seconds{1})
             {

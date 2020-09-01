@@ -1,9 +1,9 @@
+#include <array>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <limits>
 #include <string>
-#include <vector>
 
 #include <boost/asio.hpp>
 
@@ -30,15 +30,16 @@ int main(int argc, char** argv)
     tcp::socket socket{io};
     boost::asio::connect(socket, iterator);
 
-    std::vector<uint8_t> data(1024);
+    std::array<uint8_t, 8192> recvBuffer;
     ixblue_stdbin_decoder::StdBinDecoder decoder;
     auto lastPrint = std::chrono::steady_clock::now();
 
     while(true)
     {
-        boost::asio::read(socket, boost::asio::buffer(data),
-                          boost::asio::transfer_at_least(200));
-        if(decoder.parse(data))
+        const auto bytesRead = boost::asio::read(socket, boost::asio::buffer(recvBuffer),
+                                                 boost::asio::transfer_at_least(200));
+        decoder.addNewData(recvBuffer.data(), bytesRead);
+        while(decoder.parseNextFrame())
         {
             if((std::chrono::steady_clock::now() - lastPrint) > std::chrono::seconds{1})
             {

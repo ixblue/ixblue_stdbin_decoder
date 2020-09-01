@@ -25,7 +25,8 @@ TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
     // clang-format on
 
     ixblue_stdbin_decoder::StdBinDecoder parser;
-    EXPECT_TRUE(parser.parse(memory));
+    parser.addNewData(memory);
+    ASSERT_TRUE(parser.parseNextFrame());
     auto result = parser.getLastNavData();
 
     ASSERT_FALSE(result.attitudeHeadingDeviation.is_initialized());
@@ -38,7 +39,8 @@ TEST(StdBinDecoder, WeCanParseV2Protocol)
 {
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(log_STDBIN_V2));
+    parser.addNewData(log_STDBIN_V2);
+    ASSERT_TRUE(parser.parseNextFrame());
     auto result = parser.getLastNavData();
 
     EXPECT_TRUE(result.attitudeHeading.is_initialized());
@@ -188,8 +190,10 @@ TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
         std::copy(std::begin(log_STDBIN_V2), cutPoint, std::back_inserter(part1));
         std::copy(cutPoint, std::end(log_STDBIN_V2), std::back_inserter(part2));
 
-        EXPECT_FALSE(parser.parse(part1));
-        EXPECT_TRUE(parser.parse(part2));
+        parser.addNewData(part1);
+        EXPECT_FALSE(parser.parseNextFrame());
+        parser.addNewData(part2);
+        ASSERT_TRUE(parser.parseNextFrame());
         auto result = parser.getLastNavData();
 
         EXPECT_TRUE(result.attitudeHeading.is_initialized());
@@ -199,11 +203,60 @@ TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedInTwoPartsWhereverCutpointIs)
     }
 }
 
+TEST(StdBinDecoder, WeCanParseV2ProtocolReceivedWithGarbageAtFront)
+{
+    ixblue_stdbin_decoder::StdBinDecoder parser;
+
+    std::vector<uint8_t> frame;
+    // First add half-frame (=garbage)
+    std::copy(log_STDBIN_V2.begin() + log_STDBIN_V2.size() / 2, log_STDBIN_V2.end(),
+              std::back_inserter(frame));
+    // Then complete frame
+    std::copy(log_STDBIN_V2.begin(), log_STDBIN_V2.end(), std::back_inserter(frame));
+
+    parser.addNewData(frame);
+    ASSERT_TRUE(parser.parseNextFrame());
+    auto result = parser.getLastNavData();
+
+    EXPECT_TRUE(result.attitudeHeading.is_initialized());
+    EXPECT_FLOAT_EQ(result.attitudeHeading.get().heading_deg, 209.982);
+    EXPECT_FLOAT_EQ(result.attitudeHeading.get().roll_deg, 0.016);
+    EXPECT_FLOAT_EQ(result.attitudeHeading.get().pitch_deg, 0.206);
+}
+
+TEST(StdBinDecoder, WeCanParse2FramesInTheSameBufferWithGarbageOnFront)
+{
+    ixblue_stdbin_decoder::StdBinDecoder parser;
+
+    std::vector<uint8_t> frame;
+    // First add half-frame (=garbage)
+    std::copy(log_STDBIN_V2.begin() + log_STDBIN_V2.size() / 2, log_STDBIN_V2.end(),
+              std::back_inserter(frame));
+    // Then a V2 complete frame
+    std::copy(log_STDBIN_V2.begin(), log_STDBIN_V2.end(), std::back_inserter(frame));
+    // And a V4 complete frame
+    std::copy(log_STDBIN_V4.begin(), log_STDBIN_V4.end(), std::back_inserter(frame));
+
+    parser.addNewData(frame);
+
+    ASSERT_TRUE(parser.parseNextFrame());
+    const auto v2Header = parser.getLastHeaderData();
+    EXPECT_EQ(v2Header.protocolVersion, 2);
+
+    ASSERT_TRUE(parser.parseNextFrame());
+    const auto v4Header = parser.getLastHeaderData();
+    EXPECT_EQ(v4Header.protocolVersion, 4);
+
+    // Internal buffer is now empty, cannot parse a frame anymore
+    ASSERT_FALSE(parser.parseNextFrame());
+}
+
 TEST(StdBinDecoder, WeCanParseV3Protocol)
 {
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(log_STDBIN_V3));
+    parser.addNewData(log_STDBIN_V3);
+    ASSERT_TRUE(parser.parseNextFrame());
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
@@ -544,7 +597,8 @@ TEST(StdBinDecoder, WeCanParseV4Protocol)
 {
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(log_STDBIN_V4));
+    parser.addNewData(log_STDBIN_V4);
+    ASSERT_TRUE(parser.parseNextFrame());
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
@@ -795,7 +849,8 @@ TEST(StdBinDecoder, WeCanParseV5Protocol)
 {
     ixblue_stdbin_decoder::StdBinDecoder parser;
 
-    EXPECT_TRUE(parser.parse(log_STDBIN_V5));
+    parser.addNewData(log_STDBIN_V5);
+    ASSERT_TRUE(parser.parseNextFrame());
     auto result = parser.getLastNavData();
 
     // --- Navigation data block
@@ -1055,7 +1110,8 @@ TEST(StdBinDecoder, WeCanParseAnAnswerFrame)
     // clang-format on
 
     ixblue_stdbin_decoder::StdBinDecoder parser;
-    ASSERT_TRUE(parser.parse(memory));
+    parser.addNewData(memory);
+    ASSERT_TRUE(parser.parseNextFrame());
     const auto header = parser.getLastHeaderData();
     const auto nav = parser.getLastNavData();
     const auto answer = parser.getLastAnswerData();

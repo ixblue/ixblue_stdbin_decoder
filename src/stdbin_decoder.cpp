@@ -141,27 +141,35 @@ StdBinDecoder::StdBinDecoder()
            std::make_shared<Parser::LogBook>()},
           [](const MemoryBlockParserPtr& lhs, const MemoryBlockParserPtr& rhs) -> bool {
               return lhs->getOffsetInMask() < rhs->getOffsetInMask();
-          })
+          }),
+      internalBuffer{128000}
 
 {}
 
-bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
+void StdBinDecoder::addNewData(const std::vector<uint8_t>& data)
 {
-    std::copy(std::begin(frameData), std::end(frameData),
-              std::back_inserter(currentFrame));
+    addNewData(data.data(), data.size());
+}
 
+void StdBinDecoder::addNewData(const uint8_t* data, std::size_t length)
+{
+    internalBuffer.insert(internalBuffer.end(), data, data + length);
+}
+
+bool StdBinDecoder::parseNextFrame()
+{
     // Now, we will look for version of the received frame and wait to have receive enough
     // data to parse full header.
-    if(haveEnoughByteToParseHeader(currentFrame) == false)
+    if(!haveEnoughBytesToParseHeader())
     {
         return false;
     }
 
-    boost::asio::const_buffer buffer(currentFrame.data(), currentFrame.size());
+    boost::asio::const_buffer buffer(internalBuffer.linearize(), internalBuffer.size());
     lastHeader = parseHeader(buffer);
     // if we didn't receive the whole frame, we return false, and wait for the next
     // memory chunck.
-    if(currentFrame.size() < lastHeader.telegramSize) return false;
+    if(internalBuffer.size() < lastHeader.telegramSize) return false;
 
     if(lastHeader.messageType == Data::NavHeader::MessageType::NavData)
     {
@@ -194,36 +202,43 @@ bool StdBinDecoder::parse(const std::vector<uint8_t>& frameData)
         buffer = buffer + answerSize;
     }
 
-    currentFrame.clear(); // we clear the current frame to be ready for the next one.
+    // Remove the parsed telegram from the buffer
+    internalBuffer.erase_begin(lastHeader.telegramSize);
     return true;
 }
 
-bool StdBinDecoder::haveEnoughByteToParseHeader(const std::vector<uint8_t>& frame) const
+bool StdBinDecoder::haveEnoughBytesToParseHeader()
 {
-    if(frame.size() > 3)
+    while(internalBuffer.size() > 3)
     {
-        const uint8_t protocol_version = frame.at(2);
-        if(frame[0] == 'I' && frame[1] == 'X')
+        const uint8_t protocol_version = internalBuffer[2];
+        if(internalBuffer[0] == 'I' && internalBuffer[1] == 'X')
         {
             switch(protocol_version)
             {
-            case 0x02: return frame.size() >= HEADER_SIZE_V2;
-            case 0x03: return frame.size() >= HEADER_SIZE_V3;
-            case 0x04: return frame.size() >= HEADER_SIZE_V4;
-            case 0x05: return frame.size() >= HEADER_SIZE_V5;
+            case 0x02: return internalBuffer.size() >= HEADER_SIZE_V2;
+            case 0x03: return internalBuffer.size() >= HEADER_SIZE_V3;
+            case 0x04: return internalBuffer.size() >= HEADER_SIZE_V4;
+            case 0x05: return internalBuffer.size() >= HEADER_SIZE_V5;
             default: throw std::runtime_error("Unhandled protocol version");
             }
         }
-        else if(frame[0] == 'A' && frame[1] == 'N')
+        else if(internalBuffer[0] == 'A' && internalBuffer[1] == 'N')
         {
             if(protocol_version >= 3 && protocol_version <= 5)
             {
-                return frame.size() >= ANSWER_HEADER_SIZE;
+                return internalBuffer.size() >= ANSWER_HEADER_SIZE;
             }
             else
             {
                 throw std::runtime_error("Unhandled protocol version for an answer");
             }
+        }
+        else
+        {
+            // No valid header found, pop one byte at the front of the buffer and try
+            // again
+            internalBuffer.pop_front();
         }
     }
     return false;

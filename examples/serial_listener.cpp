@@ -1,8 +1,8 @@
+#include <array>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#include <vector>
 
 #include <boost/asio.hpp>
 
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
     socket.set_option(serial::stop_bits{serial::stop_bits::two});
     socket.set_option(serial::flow_control{serial::flow_control::none});
 
-    std::vector<uint8_t> data(9000);
+    std::array<uint8_t, 8192> recvBuffer;
     ixblue_stdbin_decoder::StdBinDecoder decoder;
     auto lastPrint = std::chrono::steady_clock::now();
 
@@ -43,10 +43,11 @@ int main(int argc, char** argv)
 
     while(true)
     {
-        const auto bytesRead = boost::asio::read(socket, boost::asio::buffer(data),
-                                                 boost::asio::transfer_at_least(200));
-        std::cout << "Received " << bytesRead << " bytes\n";
-        if(decoder.parse(data))
+        const auto bytesRead = boost::asio::read(socket, boost::asio::buffer(recvBuffer),
+                                                 boost::asio::transfer_at_least(100));
+
+        decoder.addNewData(recvBuffer.data(), bytesRead);
+        while(decoder.parseNextFrame())
         {
             if((std::chrono::steady_clock::now() - lastPrint) > std::chrono::seconds{1})
             {
@@ -62,10 +63,6 @@ int main(int argc, char** argv)
                     lastPrint = std::chrono::steady_clock::now();
                 }
             }
-        }
-        else
-        {
-            std::cout << "Failed to parse\n";
         }
     }
 }
