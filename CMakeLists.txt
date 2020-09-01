@@ -92,6 +92,10 @@ add_executable(tcp_client examples/tcp_client.cpp)
 target_link_libraries(tcp_client ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
 set_target_properties(tcp_client PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
 
+add_executable(serial_listener examples/serial_listener.cpp)
+target_link_libraries(serial_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+set_target_properties(serial_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+
 #############
 ## Install ##
 #############
