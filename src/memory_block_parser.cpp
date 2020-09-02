@@ -1,5 +1,8 @@
-#include <ixblue_stdbin_decoder/memory_block_parser.h>
+#include <stdexcept>
+
 #include <boost/endian/conversion.hpp>
+
+#include <ixblue_stdbin_decoder/memory_block_parser.h>
 
 namespace ixblue_stdbin_decoder
 {

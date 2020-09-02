@@ -1,5 +1,6 @@
 #include <numeric>
 #include <sstream>
+#include <stdexcept>
 
 #include <ixblue_stdbin_decoder/stdbin_decoder.h>
 
