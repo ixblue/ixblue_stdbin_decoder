@@ -97,6 +97,12 @@ protected:
     Data::NavHeader parseHeader(boost::asio::const_buffer& buffer) const;
     Data::NavHeader::MessageType getHeaderType(boost::asio::const_buffer& buffer) const;
     bool haveEnoughBytesToParseHeader();
+    /*!
+     * \brief Compute current frame checksum and compare with the frame checksum.
+     * If mismatch, throw \c std::runtime_error exception.
+     * \exception runtime_error if bad checksum
+     */
+    void compareChecksum();
     // We set the parsers set "constant" to be sure that the content of this set will be
     // the same during all the lifetime of this object. We can only add memory bloc parser
     // at construction.

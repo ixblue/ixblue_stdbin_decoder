@@ -6,7 +6,7 @@
 #include "datasets/log_STDBIN_V4.h"
 #include "datasets/log_STDBIN_V5.h"
 
-TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
+TEST(StdBinDecoder, WeCannotParseAFrameWithSomeMissingFields)
 {
     // Given a frame with only attitude :
     // clang-format off
@@ -21,6 +21,31 @@ TEST(StdBinDecoder, WeCanParseAFrameWithSomeMissingFields)
         0x00, 0x00, 0xa0, 0x3f, /* Heading : 1.25f */
         0x00, 0x00, 0xc0, 0xbf, /* roll : -1.5f   */
         0xcd, 0xcc, 0x48, 0x41, /* Pitch : 12.55f */
+        /* Checksum missing */
+    };
+    // clang-format on
+
+    ixblue_stdbin_decoder::StdBinDecoder parser;
+    parser.addNewData(memory);
+    EXPECT_THROW(parser.parseNextFrame(), std::runtime_error);
+}
+
+TEST(StdBinDecoder, WeCanParseAMinimalV2Frame)
+{
+    // Given a frame with only attitude :
+    // clang-format off
+    const std::vector<uint8_t> memory{
+        'I',  'X',  /*IX blue header   */
+        0x02,       /*Protocol Version */
+        0x00, 0x00, 0x00, 0x01, /* navigation bitmask (0x00000001 means only AttitudeAndHeading) */
+        0x00, 0x00, 0x00, 0x00, /* external data bitmask */
+        0x00, 0x25,             /* Telegram size */
+        0x00, 0x00, 0x00, 0x05, /* navigation validity time (500 us) */
+        0x00, 0x00, 0x01, 0x23, /* counter (0x123) */
+        0x00, 0x00, 0xa0, 0x3f, /* Heading : 1.25f */
+        0x00, 0x00, 0xc0, 0xbf, /* roll : -1.5f   */
+        0xcd, 0xcc, 0x48, 0x41, /* Pitch : 12.55f */
+        0x00, 0x00, 0x5, 0x72  /* Checksum */
     };
     // clang-format on
 
@@ -1105,7 +1130,7 @@ TEST(StdBinDecoder, WeCanParseAnAnswerFrame)
         0x03,       /* Protocol Version */
         0x00, 0x0d, /* Telegram size */
         0xde, 0xad, 0xbe, 0xef, /* payload */
-        0x01, 0x02, 0x03, 0x04, /* dummy checksum */
+        0x00, 0x00, 0x03, 0xd7, /* checksum */
     };
     // clang-format on
 

@@ -1,3 +1,6 @@
+#include <numeric>
+#include <sstream>
+
 #include <ixblue_stdbin_decoder/stdbin_decoder.h>
 
 /* Navigation data blocs */
@@ -165,11 +168,16 @@ bool StdBinDecoder::parseNextFrame()
         return false;
     }
 
+    // The call to linearize() can lead to a copy of the buffer content, but once in a
+    // because the buffer is quite large
     boost::asio::const_buffer buffer(internalBuffer.linearize(), internalBuffer.size());
     lastHeader = parseHeader(buffer);
     // if we didn't receive the whole frame, we return false, and wait for the next
     // memory chunck.
     if(internalBuffer.size() < lastHeader.telegramSize) return false;
+
+    // Compare checksum before going further (will throw if bad)
+    compareChecksum();
 
     if(lastHeader.messageType == Data::NavHeader::MessageType::NavData)
     {
@@ -242,6 +250,28 @@ bool StdBinDecoder::haveEnoughBytesToParseHeader()
         }
     }
     return false;
+}
+
+void StdBinDecoder::compareChecksum()
+{
+    // Create a new buffer to start from start of frame
+    // This call to linearize() is free because the buffer as been linearized just before
+    boost::asio::const_buffer buffer(internalBuffer.linearize(), internalBuffer.size());
+    const std::size_t checksumPositionInFrame = lastHeader.telegramSize - CHECKSUM_SIZE;
+    buffer = buffer + checksumPositionInFrame;
+    uint32_t receivedChecksum = 0;
+    buffer >> receivedChecksum;
+
+    const uint32_t computedChecksum = std::accumulate(
+        internalBuffer.begin(), internalBuffer.begin() + checksumPositionInFrame, 0);
+
+    if(receivedChecksum != computedChecksum)
+    {
+        std::ostringstream ss;
+        ss << "Bad checksum. Received: 0x" << std::hex << receivedChecksum
+           << ", computed: 0x" << computedChecksum;
+        throw std::runtime_error(ss.str());
+    }
 }
 
 Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
