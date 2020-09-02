@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
     socket.open(argv[1]);
     using serial = boost::asio::serial_port_base;
-    socket.set_option(serial::baud_rate{});
+    socket.set_option(serial::baud_rate(baudrate));
     socket.set_option(serial::character_size{8});
     socket.set_option(serial::parity{serial::parity::odd});
     socket.set_option(serial::stop_bits{serial::stop_bits::two});
