@@ -34,31 +34,42 @@ int main(int argc, char** argv)
     ixblue_stdbin_decoder::StdBinDecoder decoder;
     auto lastPrint = std::chrono::steady_clock::now();
 
-    while(true)
+    try
     {
-        const auto bytesRead = boost::asio::read(socket, boost::asio::buffer(recvBuffer),
-                                                 boost::asio::transfer_at_least(200));
-        decoder.addNewData(recvBuffer.data(), bytesRead);
-        while(decoder.parseNextFrame())
+        while(true)
         {
-            if((std::chrono::steady_clock::now() - lastPrint) > std::chrono::seconds{1})
+            const auto bytesRead =
+                boost::asio::read(socket, boost::asio::buffer(recvBuffer),
+                                  boost::asio::transfer_at_least(200));
+            decoder.addNewData(recvBuffer.data(), bytesRead);
+            while(decoder.parseNextFrame())
             {
-                const auto nav = decoder.getLastNavData();
-                if(nav.position.is_initialized())
+                if((std::chrono::steady_clock::now() - lastPrint) >
+                   std::chrono::seconds{1})
                 {
-                    std::cout << "Position: \n"
-                              << std::fixed << std::setprecision(9)
-                              << "  lat: " << nav.position->latitude_deg << " deg\n"
-                              << "  lon: " << nav.position->longitude_deg << "deg\n"
-                              << std::setprecision(2)
-                              << "  alt: " << nav.position->altitude_m << " m\n";
-                    lastPrint = std::chrono::steady_clock::now();
-                }
-                else
-                {
-                    std::cout << "Last nav frame received does not contain position\n";
+                    const auto nav = decoder.getLastNavData();
+                    if(nav.position.is_initialized())
+                    {
+                        std::cout << "Position: \n"
+                                  << std::fixed << std::setprecision(9)
+                                  << "  lat: " << nav.position->latitude_deg << " deg\n"
+                                  << "  lon: " << nav.position->longitude_deg << "deg\n"
+                                  << std::setprecision(2)
+                                  << "  alt: " << nav.position->altitude_m << " m\n";
+                        lastPrint = std::chrono::steady_clock::now();
+                    }
+                    else
+                    {
+                        std::cout
+                            << "Last nav frame received does not contain position\n";
+                    }
                 }
             }
         }
+    }
+    catch(const std::runtime_error& e)
+    {
+        std::cerr << "Parser error: " << e.what() << '\n';
+        return 1;
     }
 }

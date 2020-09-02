@@ -36,27 +36,36 @@ int main(int argc, char** argv)
 
     std::cout << "Listening on UDP port " << port << "...\n";
 
-    while(true)
+    try
     {
-        const auto bytesRead =
-            socket.receive_from(boost::asio::buffer(recvBuffer), senderEndpoint);
-        decoder.addNewData(recvBuffer.data(), bytesRead);
-        while(decoder.parseNextFrame())
+        while(true)
         {
-            if((std::chrono::steady_clock::now() - lastPrint) > std::chrono::seconds{1})
+            const auto bytesRead =
+                socket.receive_from(boost::asio::buffer(recvBuffer), senderEndpoint);
+            decoder.addNewData(recvBuffer.data(), bytesRead);
+            while(decoder.parseNextFrame())
             {
-                const auto nav = decoder.getLastNavData();
-                if(nav.position.is_initialized())
+                if((std::chrono::steady_clock::now() - lastPrint) >
+                   std::chrono::seconds{1})
                 {
-                    std::cout << "Position: \n"
-                              << std::fixed << std::setprecision(9)
-                              << "  lat: " << nav.position->latitude_deg << " deg\n"
-                              << "  lon: " << nav.position->longitude_deg << "deg\n"
-                              << std::setprecision(2)
-                              << "  alt: " << nav.position->altitude_m << " m\n";
-                    lastPrint = std::chrono::steady_clock::now();
+                    const auto nav = decoder.getLastNavData();
+                    if(nav.position.is_initialized())
+                    {
+                        std::cout << "Position: \n"
+                                  << std::fixed << std::setprecision(9)
+                                  << "  lat: " << nav.position->latitude_deg << " deg\n"
+                                  << "  lon: " << nav.position->longitude_deg << "deg\n"
+                                  << std::setprecision(2)
+                                  << "  alt: " << nav.position->altitude_m << " m\n";
+                        lastPrint = std::chrono::steady_clock::now();
+                    }
                 }
             }
         }
+    }
+    catch(const std::runtime_error& e)
+    {
+        std::cerr << "Parser error: " << e.what() << '\n';
+        return 1;
     }
 }
