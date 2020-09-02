@@ -84,17 +84,20 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_auto_type cxx_constexpr cxx_lambdas cxx_nullptr cxx_range_for)
 
-add_executable(udp_listener examples/udp_listener.cpp)
-target_link_libraries(udp_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
-set_target_properties(udp_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+option(BUILD_EXAMPLES "Build examples." ON)
+if(BUILD_EXAMPLES)
+    add_executable(udp_listener examples/udp_listener.cpp)
+    target_link_libraries(udp_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(udp_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
 
-add_executable(tcp_client examples/tcp_client.cpp)
-target_link_libraries(tcp_client ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
-set_target_properties(tcp_client PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+    add_executable(tcp_client examples/tcp_client.cpp)
+    target_link_libraries(tcp_client ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(tcp_client PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
 
-add_executable(serial_listener examples/serial_listener.cpp)
-target_link_libraries(serial_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
-set_target_properties(serial_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+    add_executable(serial_listener examples/serial_listener.cpp)
+    target_link_libraries(serial_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(serial_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+endif()
 
 #############
 ## Install ##
