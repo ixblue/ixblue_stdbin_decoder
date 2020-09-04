@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.1)
+
+# Read version from package.xml file
+file(READ "${CMAKE_CURRENT_LIST_DIR}/package.xml" file_contents)
+string(REGEX MATCH "<version>([0-9]+.[0-9]+.[0-9]+)<\/version>" _ "${file_contents}")
+if(NOT CMAKE_MATCH_COUNT EQUAL 1)
+    message(FATAL_ERROR "Could not extract major version number from package.xml")
+endif()
+set(PACKAGE_VERSION ${CMAKE_MATCH_1})
+
 project(ixblue_stdbin_decoder
-  VERSION 0.1
+  VERSION ${PACKAGE_VERSION}
   LANGUAGES CXX
 )
 
