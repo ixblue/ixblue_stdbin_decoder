@@ -83,8 +83,8 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_auto_type cxx_constexpr cxx_lambdas cxx_nullptr cxx_range_for)
 
-option(BUILD_EXAMPLES "Build examples." ON)
-if(BUILD_EXAMPLES)
+option(BUILD_STDBIN_EXAMPLES "Build examples." OFF)
+if(BUILD_STDBIN_EXAMPLES)
     add_executable(udp_listener examples/udp_listener.cpp)
     target_link_libraries(udp_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
     set_target_properties(udp_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
