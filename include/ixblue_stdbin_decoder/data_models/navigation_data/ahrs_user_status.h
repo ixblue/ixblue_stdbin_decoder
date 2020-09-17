@@ -8,7 +8,7 @@ namespace Data
 
 struct AHRSUserStatus
 {
-    uint32_t status;
+    uint32_t status = 0;
 };
 } // namespace Data
 } // namespace ixblue_stdbin_decoder

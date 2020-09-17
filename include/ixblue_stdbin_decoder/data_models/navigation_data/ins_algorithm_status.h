@@ -175,12 +175,12 @@ struct INSAlgorithmStatus
         // 0-31 reserved
     };
 
-    uint32_t status1;
-    uint32_t status2;
-    uint32_t status3;
-    uint32_t status4;
-    uint32_t status5;
-    uint32_t status6;
+    uint32_t status1 = 0;
+    uint32_t status2 = 0;
+    uint32_t status3 = 0;
+    uint32_t status4 = 0;
+    uint32_t status5 = 0;
+    uint32_t status6 = 0;
 };
 } // namespace Data
 } // namespace ixblue_stdbin_decoder
