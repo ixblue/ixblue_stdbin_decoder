@@ -48,7 +48,7 @@ if(UNIX)
       set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/lib)
       set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/${CMAKE_INSTALL_BINDIR})
     endforeach()
-else()
+elseif(MSVC)
   # Currently Only support static build for windows
   set(BUILD_SHARED_LIBS OFF)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
@@ -68,13 +68,12 @@ endif()
 ###########
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME} SHARED src/memory_block_parser.cpp src/stdbin_decoder.cpp)
+add_library(${PROJECT_NAME} src/memory_block_parser.cpp src/stdbin_decoder.cpp)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-  PRIVATE
     ${Boost_INCLUDE_DIRS}
 )
 target_link_libraries(${PROJECT_NAME}
