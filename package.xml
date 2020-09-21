@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ixblue_stdbin_decoder</name>
-  <version>0.1.2</version>
+  <version>0.1.3</version>
   <description>iXblue parsing library for protocol iXblue stdbin</description>
 
   <maintainer email="romain.reignier@ixblue.com">Romain Reignier</maintainer>
