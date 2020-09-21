@@ -2,6 +2,13 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add ins algorithm status and ins system status bits description in emums
+* Add clang format file
+* Set CMake project version from package.xml
+* Contributors: Romain Reignier
+
 0.1.2 (2020-08-31)
 ------------------
 * Fix CMake config file for older CMake
