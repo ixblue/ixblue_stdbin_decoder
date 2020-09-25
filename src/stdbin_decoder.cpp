@@ -294,7 +294,7 @@ Data::NavHeader StdBinDecoder::parseHeader(const_buffer& buffer) const
     }
 
     buffer >> res.protocolVersion;
-    if(res.protocolVersion < 2 && res.protocolVersion > 5)
+    if(res.protocolVersion < 2 || res.protocolVersion > 5)
     {
         throw std::runtime_error(
             "Unknown protocol version. Supported protocol are version 2->5");
