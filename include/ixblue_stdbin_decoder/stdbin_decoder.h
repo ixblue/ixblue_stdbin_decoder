@@ -4,7 +4,9 @@
 #include "data_models/stdbin.h"
 #include "memory_block_parser.h"
 
+#include <boost/circular_buffer.hpp>
 #include <boost/noncopyable.hpp>
+
 #include <functional>
 #include <set>
 
@@ -48,16 +50,41 @@ public:
     StdBinDecoder();
 
     /*!
-     * \arg frameData : A part or the full StdBIN frame. The first buffer passed to this
-     * function must be the begining of a frame. This will be true if buffer is received
-     * via UDP or TCP.
-     * \warning This method doesn't work if the STDBIN frame is received via Serial
-     * (RS232) link.
+     * \brief Add new binary data to the parser internal buffer
+     * The new data can only be a part of a frame, the parser will manage to assemble
+     * the several parts in order to decode it
+     * \param data a pointer to a contiguous memory buffer
+     * \param length the amount of bytes to read from the buffer
+     */
+    void addNewData(const uint8_t* data, std::size_t length);
+
+    /*!
+     * \brief Add new binary data to the parser internal buffer
+     * The new data can only be a part of a frame, the parser will manage to assemble
+     * the several parts in order to decode it
+     * \param data a std::vector containing data to copy into the internal buffer
+     * \warning The vector must be full of received bytes because it will be entirely
+     * copied to the internal buffer.
+     * If the vector is only partially filled, use the other oveload:
+     * \code{.cpp}
+     * std::vector<uint8_t> buf(2000);
+     * std::size_t byteRead = socket.read(buf);
+     * // here, the buf only contains byteRead valid bytes
+     * parser.addNewData(buf.data(), bytesRead);
+     * \endcode
+     */
+    void addNewData(const std::vector<uint8_t>& data);
+
+    /*!
+     * \brief Try to parse a frame from the parser internal buffer.
+     * Some binary data must have been added with the \c addNewData() method beforehand.
+     * This method is able to handle buffer with header at the middle of the frame as
+     * found on connection-less communication like serial port (RS-232).
      * \return true if the frame has been completly parsed, false otherwise.
      * If frame has been parsed, result is accessible via \c getLastNavData();
      * \exception runtime_error if a parse error occurs.
      */
-    bool parse(const std::vector<uint8_t>& frameData);
+    bool parseNextFrame();
 
     Data::BinaryNav getLastNavData(void) const { return lastParsed; }
     Data::NavHeader getLastHeaderData(void) const { return lastHeader; }
@@ -69,7 +96,13 @@ protected:
      */
     Data::NavHeader parseHeader(boost::asio::const_buffer& buffer) const;
     Data::NavHeader::MessageType getHeaderType(boost::asio::const_buffer& buffer) const;
-    bool haveEnoughByteToParseHeader(const std::vector<uint8_t>& frame) const;
+    bool haveEnoughBytesToParseHeader();
+    /*!
+     * \brief Compute current frame checksum and compare with the frame checksum.
+     * If mismatch, throw \c std::runtime_error exception.
+     * \exception runtime_error if bad checksum
+     */
+    void compareChecksum();
     // We set the parsers set "constant" to be sure that the content of this set will be
     // the same during all the lifetime of this object. We can only add memory bloc parser
     // at construction.
@@ -83,6 +116,6 @@ protected:
 
     // We store in this buffer the current frame's data. This memory chunk is managed by
     // the parsing state machine. See function \c parse.
-    std::vector<uint8_t> currentFrame;
+    boost::circular_buffer<uint8_t> internalBuffer;
 };
 } // namespace ixblue_stdbin_decoder

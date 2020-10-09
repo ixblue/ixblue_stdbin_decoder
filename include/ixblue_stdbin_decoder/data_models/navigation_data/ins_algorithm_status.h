@@ -145,10 +145,42 @@ struct INSAlgorithmStatus
         INCONSISTENT_SENSOR_DATA
     };
 
-    uint32_t status1;
-    uint32_t status2;
-    uint32_t status3;
-    uint32_t status4;
+    enum Status5
+    {
+        NAV_MODE_NONE,
+        TRAVELING_MODE,
+        FIRING_MODE,
+        FIRING_ON_MOVE,
+        AERO_TRANSPORTATION,
+        // 5-15 reserved
+        MANUAL_ALTITUD_VALID = 16,
+        MANUAL_ALTITUDE_REJECTED,
+        SHOCK_ACTIVATED,
+        SHOCK_DETECTED,
+        TR_ZUPT_ACTIVATED,
+        TR_ZUPT_VALID,
+        PO_ZUPT_ACTIVATED,
+        PO_ZUPT_VALID,
+        RELATIVE_ATTITUDE_DEGRADED,
+        CDSP_FLASH_MEMORY_WRERR,
+        CDSP_FLASH_MEMORY_ERERR,
+        CINT_FLASH_MEMORY_VIRGIN,
+        CDSP_FLASH_MEMORY_VIRGIN,
+        CINT_FLASH_MEMORY_ERROR,
+        CDSP_FLASH_MEMORY_ERROR
+    };
+
+    enum Status6
+    {
+        // 0-31 reserved
+    };
+
+    uint32_t status1 = 0;
+    uint32_t status2 = 0;
+    uint32_t status3 = 0;
+    uint32_t status4 = 0;
+    uint32_t status5 = 0;
+    uint32_t status6 = 0;
 };
 
 } // namespace Data

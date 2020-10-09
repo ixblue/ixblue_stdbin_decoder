@@ -41,22 +41,23 @@ endif()
 
 ## System dependency
 find_package(Boost REQUIRED COMPONENTS system)
+find_package(Threads)
 
 include(GNUInstallDirs)
 if(UNIX)
     option(BUILD_SHARED_LIBS "Build shared libraries(.so)." ON)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
     # for multi-config build system (e.g. Xcode, ninja Multi-Config)
     foreach(OUTPUTCONFIG IN LISTS CMAKE_CONFIGURATION_TYPES)
       string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-      set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/${CMAKE_INSTALL_LIBDIR})
-      set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/${CMAKE_INSTALL_LIBDIR})
+      set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/lib)
+      set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/lib)
       set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${OUTPUTCONFIG}/${CMAKE_INSTALL_BINDIR})
     endforeach()
-else()
+elseif(MSVC)
   # Currently Only support static build for windows
   set(BUILD_SHARED_LIBS OFF)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
@@ -76,13 +77,12 @@ endif()
 ###########
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME} SHARED src/memory_block_parser.cpp src/stdbin_decoder.cpp)
+add_library(${PROJECT_NAME} src/memory_block_parser.cpp src/stdbin_decoder.cpp)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-  PRIVATE
     ${Boost_INCLUDE_DIRS}
 )
 target_link_libraries(${PROJECT_NAME}
@@ -92,6 +92,21 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_auto_type cxx_constexpr cxx_lambdas cxx_nullptr cxx_range_for)
 
+option(BUILD_STDBIN_EXAMPLES "Build examples." OFF)
+if(BUILD_STDBIN_EXAMPLES)
+    add_executable(udp_listener examples/udp_listener.cpp)
+    target_link_libraries(udp_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(udp_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+
+    add_executable(tcp_client examples/tcp_client.cpp)
+    target_link_libraries(tcp_client ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(tcp_client PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+
+    add_executable(serial_listener examples/serial_listener.cpp)
+    target_link_libraries(serial_listener ${PROJECT_NAME} ${Boost_LIBRARIES} Threads::Threads)
+    set_target_properties(serial_listener PROPERTIES INSTALL_RPATH "$ORIGIN/../lib")
+endif()
+
 #############
 ## Install ##
 #############
@@ -100,8 +115,8 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_auto_type cxx_constexpr cxx_l
 install(
   TARGETS ${PROJECT_NAME}
   EXPORT ixblue_stdbin_decoder-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
@@ -114,7 +129,7 @@ install(
 # Install catkin package.xml
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
 
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/ixblue_stdbin_decoder)
+set(INSTALL_CONFIGDIR lib/cmake/ixblue_stdbin_decoder)
 
 install(EXPORT ixblue_stdbin_decoder-targets
   FILE ixblue_stdbin_decoder-targets.cmake

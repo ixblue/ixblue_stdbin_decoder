@@ -39,6 +39,8 @@ public:
         : offsetInMask(offsetInMask), bytesCount(bytesCount)
     {}
 
+    virtual ~MemoryBlockParser() = default;
+
     void parse(boost::asio::const_buffer& buffer, const tBitMask& mask,
                Data::BinaryNav& outBinaryNav);
 
