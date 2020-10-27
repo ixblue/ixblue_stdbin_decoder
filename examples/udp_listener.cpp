@@ -54,7 +54,7 @@ int main(int argc, char** argv)
                         std::cout << "Position: \n"
                                   << std::fixed << std::setprecision(9)
                                   << "  lat: " << nav.position->latitude_deg << " deg\n"
-                                  << "  lon: " << nav.position->longitude_deg << "deg\n"
+                                  << "  lon: " << nav.position->longitude_deg << " deg\n"
                                   << std::setprecision(2)
                                   << "  alt: " << nav.position->altitude_m << " m\n";
                         lastPrint = std::chrono::steady_clock::now();

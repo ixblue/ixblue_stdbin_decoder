@@ -27,7 +27,16 @@ int main(int argc, char** argv)
     boost::asio::io_service io;
     boost::asio::serial_port socket{io};
 
-    socket.open(argv[1]);
+    try
+    {
+        socket.open(argv[1]);
+    }
+    catch(const boost::system::system_error& e)
+    {
+        std::cerr << "Failed to open the serial port: " << e.what();
+        return 1;
+    }
+
     using serial = boost::asio::serial_port_base;
     socket.set_option(serial::baud_rate(baudrate));
     socket.set_option(serial::character_size{8});
@@ -37,17 +46,16 @@ int main(int argc, char** argv)
 
     std::array<uint8_t, 8192> recvBuffer;
     ixblue_stdbin_decoder::StdBinDecoder decoder;
-    auto lastPrint = std::chrono::steady_clock::now();
 
     std::cout << "Listening on serial port " << argv[1] << "...\n";
+
+    auto lastPrint = std::chrono::steady_clock::now();
 
     try
     {
         while(true)
         {
-            const auto bytesRead =
-                boost::asio::read(socket, boost::asio::buffer(recvBuffer),
-                                  boost::asio::transfer_at_least(100));
+            const auto bytesRead = socket.read_some(boost::asio::buffer(recvBuffer));
 
             decoder.addNewData(recvBuffer.data(), bytesRead);
             while(decoder.parseNextFrame())
@@ -61,7 +69,7 @@ int main(int argc, char** argv)
                         std::cout << "Position: \n"
                                   << std::fixed << std::setprecision(9)
                                   << "  lat: " << nav.position->latitude_deg << " deg\n"
-                                  << "  lon: " << nav.position->longitude_deg << "deg\n"
+                                  << "  lon: " << nav.position->longitude_deg << " deg\n"
                                   << std::setprecision(2)
                                   << "  alt: " << nav.position->altitude_m << " m\n";
                         lastPrint = std::chrono::steady_clock::now();

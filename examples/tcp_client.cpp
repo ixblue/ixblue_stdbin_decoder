@@ -28,19 +28,26 @@ int main(int argc, char** argv)
     std::cout << "Connecting to TCP server " << argv[1] << " on port " << argv[2] << '\n';
 
     tcp::socket socket{io};
-    boost::asio::connect(socket, iterator);
 
-    std::array<uint8_t, 8192> recvBuffer;
+    try
+    {
+        boost::asio::connect(socket, iterator);
+    }
+    catch(const boost::system::system_error& e)
+    {
+        std::cerr << "Failed to connect to the socket: " << e.what();
+        return 1;
+    }
+
+    std::array<uint8_t, 9000> recvBuffer;
     ixblue_stdbin_decoder::StdBinDecoder decoder;
     auto lastPrint = std::chrono::steady_clock::now();
-
     try
     {
         while(true)
         {
-            const auto bytesRead =
-                boost::asio::read(socket, boost::asio::buffer(recvBuffer),
-                                  boost::asio::transfer_at_least(200));
+            const auto bytesRead = socket.read_some(boost::asio::buffer(recvBuffer));
+
             decoder.addNewData(recvBuffer.data(), bytesRead);
             while(decoder.parseNextFrame())
             {
@@ -53,7 +60,7 @@ int main(int argc, char** argv)
                         std::cout << "Position: \n"
                                   << std::fixed << std::setprecision(9)
                                   << "  lat: " << nav.position->latitude_deg << " deg\n"
-                                  << "  lon: " << nav.position->longitude_deg << "deg\n"
+                                  << "  lon: " << nav.position->longitude_deg << " deg\n"
                                   << std::setprecision(2)
                                   << "  alt: " << nav.position->altitude_m << " m\n";
                         lastPrint = std::chrono::steady_clock::now();
