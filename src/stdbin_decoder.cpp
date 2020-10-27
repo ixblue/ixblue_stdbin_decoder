@@ -175,7 +175,10 @@ bool StdBinDecoder::parseNextFrame()
     lastHeader = parseHeader(buffer);
     // if we didn't receive the whole frame, we return false, and wait for the next
     // memory chunck.
-    if(internalBuffer.size() < lastHeader.telegramSize) return false;
+    if(internalBuffer.size() < lastHeader.telegramSize)
+    {
+        return false;
+    }
 
     // Compare checksum before going further (will throw if bad)
     compareChecksum();
