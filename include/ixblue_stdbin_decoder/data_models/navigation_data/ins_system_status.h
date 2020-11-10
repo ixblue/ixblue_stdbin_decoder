@@ -76,9 +76,9 @@ struct INSSystemStatus
         // 18-31 reserved
     };
 
-    uint32_t status1;
-    uint32_t status2;
-    uint32_t status3;
+    uint32_t status1 = 0;
+    uint32_t status2 = 0;
+    uint32_t status3 = 0;
 };
 
 } // namespace Data

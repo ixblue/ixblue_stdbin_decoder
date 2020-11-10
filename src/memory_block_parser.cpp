@@ -1,5 +1,8 @@
-#include <ixblue_stdbin_decoder/memory_block_parser.h>
+#include <stdexcept>
+
 #include <boost/endian/conversion.hpp>
+
+#include <ixblue_stdbin_decoder/memory_block_parser.h>
 
 namespace ixblue_stdbin_decoder
 {
@@ -27,7 +30,7 @@ boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, double& re
 {
     uint64_t bytes = *boost::asio::buffer_cast<const uint64_t*>(buf);
     boost::endian::big_to_native_inplace(bytes);
-    res = *reinterpret_cast<double*>(&bytes);
+    std::memcpy(&res, &bytes, sizeof(double));
     buf = buf + sizeof(double);
     return buf;
 }
@@ -36,7 +39,7 @@ boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, float& res
 {
     uint32_t bytes = *boost::asio::buffer_cast<const uint32_t*>(buf);
     boost::endian::big_to_native_inplace(bytes);
-    res = *reinterpret_cast<float*>(&bytes);
+    std::memcpy(&res, &bytes, sizeof(float));
     buf = buf + sizeof(float);
     return buf;
 }

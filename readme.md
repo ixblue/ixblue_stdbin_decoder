@@ -94,7 +94,11 @@ To run only one test :
 ---
 ## Usage
 
-This library doesn't manage the communication with the IMU. This library is just a parser. If you want, you can try our [ROS driver](https://github.com/ixblue/ixblue_ins_stdbin_driver) that implements an UDP Client based on boost asio to receive data from the IMU and publish them as ROS topic.
+This library doesn't manage the communication with the IMU, only the reconstruction and parsing of the stdbin data.
+
+Simple UDP, TCP and serial port usage examples using Boost asio are available in the [`examples`](examples) directory.
+
+A more complete usage example can be found in our [ROS driver](https://github.com/ixblue/ixblue_ins_stdbin_driver) that implements an UDP Client based on Boost asio to receive data from the IMU and publish them as ROS topic.
 
 The entry point of this library is the class ```StdBinDecoder```.
 
@@ -105,18 +109,23 @@ StdBinDecoder decoder;
 
 std::vector<uint8_t> binaryDatas;
 // Fill binary data with data received from IMU
+size_t bytesRead = mySocket.read(binaryDatas);
 try {
-  if(decoder.parse(binaryDatas)) {
-    auto navDatas = decoder.getLastMessage();
+  decoder.addNewData(binaryDatas.data(), bytesRead);
+  while(decoder.parse()) {
+    auto navDatas = decoder.getLastNavData();
+    // Do something with the nav data
   }
 } catch(std::runtime_error& e) {
    // Parsing error are reported by throwing std::runtime_exception.
 }
 ```
 
-The ```StdBinDecoder::parse``` method accepts incomplete data (as the content of splitted TCP packet). This method returns true if the whole frame has been received, and decoded.
+The `StdBinDecoder::addNewData` adds the newly arrived bytes to the parsed internal buffer.
+The parser manages the reconstruction of the frames. It can then be used on serial port, TCP and UDP.
+The method `StdBinDecoder::parseNextFrame` returns true if a valid frame has been parsed from the internal buffer. The frame content can then be retireved with the method `StdBinDecoder::getLastNavData`.
 
-Parsing error are reported by throwing `std::runtime_execpetion`.
+Parsing errors are reported by throwing `std::runtime_execpetion`.
 
 **[Back to top](#table-of-contents)**
 
