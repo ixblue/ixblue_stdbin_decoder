@@ -2,6 +2,21 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix strict aliasing warning by using memcpy
+* Fix the protocol version test condition
+* Do not force SHARED library to use static lib on Windows
+* Add checksum checking on frame reception
+  Allow to use on unreliable communication like serial ports
+* Breaking change: Allow the decoder to parse partial frames by reconstructing
+  the frames internally using a circular buffer
+  This allows to work properly on TCP and moreover, serial ports.
+  This change changes the API as reflected in README minimal example.
+* Add usage examples
+* Add bits enums for INSAlgorithmStatus and INSSystemStatus
+* Contributors: BARRAL Adrien, Romain Reignier
+
 0.1.3 (2020-09-21)
 ------------------
 * Add ins algorithm status and ins system status bits description in emums
