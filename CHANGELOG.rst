@@ -2,8 +2,8 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2020-11-13)
+------------------
 * Fix strict aliasing warning by using memcpy
 * Fix the protocol version test condition
 * Do not force SHARED library to use static lib on Windows
