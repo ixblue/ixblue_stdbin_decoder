@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Run every mondays at 6 am
+    - cron: '0 6 * * 1'
+
+jobs:
+  job:
+    name: ${{matrix.image}} OS
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ['ubuntu:xenial', 'ubuntu:bionic', 'ubuntu:focal', 'debian:stretch', 'debian:buster']
+
+    runs-on: ubuntu-latest
+    container:
+      image: ${{matrix.image}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          apt update
+          DEBIAN_FRONTEND=noninteractive apt install -y git build-essential cmake libboost-dev libboost-system-dev
+      
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_STDBIN_EXAMPLES=ON -DBUILD_TESTING=ON ..
+          make
+
+      - name: Test
+        run: |
+          cd build
+          make test
