@@ -4,3 +4,9 @@
 
 # Ignore QtCreator files
 *.user*
+
+# ignore idea folder
+.idea/
+
+# Ignore cmake- folders
+cmake-build-*/
