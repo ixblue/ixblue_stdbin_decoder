@@ -6,6 +6,72 @@
 #include "datasets/log_STDBIN_V4.h"
 #include "datasets/log_STDBIN_V5.h"
 
+// add data for error recovery
+#include "datasets/errors/BadCheckSum.hpp"
+#include "datasets/errors/BadNavProtocolVersion.hpp"
+#include "datasets/errors/BadAnswerProtocolVersion.hpp"
+
+#include "datasets/MinimalV2NavFrame.hpp"
+#include "datasets/MinimalV3AnsFrame.hpp"
+
+
+class TestStdBinDecoderErrorRecovery : public ixblue_stdbin_decoder::StdBinDecoder , public testing::Test {
+public:
+    template<typename T> void addNewDataFrame(const T & frame){
+        this->addNewData(frame.data(),frame.size());
+    }
+
+    /**
+     * @brief used to assert if is error is thrown
+     */
+    void testIsErrorIsThrown(){
+        ASSERT_THROW(parseNextFrame(),std::runtime_error);
+        EXPECT_EQ(this->internalBuffer.size(),0L) << "Buffer must be cleaned.";
+    }
+
+    /**
+     * @brief used to assert if error recovery was successfully applied
+     */
+    void testNavFrameErrorRecovery(){
+        this->addNewDataFrame(MINIMAL_V2_NAV_FRAME);
+        ASSERT_NO_THROW(parseNextFrame()) << "Error recovery don't work.";
+        ASSERT_EQ(this->internalBuffer.size(),0L);
+    }
+
+    /**
+     * @brief used to assert if error recovery was successfully applied
+     */
+    void testAnswerFrameErrorRecovery(){
+        this->addNewDataFrame(MINIMAL_V3_ANS_FRAME);
+        ASSERT_NO_THROW(parseNextFrame()) << "Error recovery don't work.";
+        ASSERT_EQ(this->internalBuffer.size(),0L);
+    }
+};
+
+TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadCheckSum){
+    // add bad frame to buffer
+    this->addNewDataFrame(BAD_CHECK_SUM);
+    this->testIsErrorIsThrown();
+
+    this->testNavFrameErrorRecovery();
+}
+
+TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadNavProtocolVersion){
+    // add bad frame to buffer
+    this->addNewDataFrame(BAD_NAV_PROTOCOL_VERSION);
+    this->testIsErrorIsThrown();
+
+    this->testNavFrameErrorRecovery();
+}
+
+TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadAnswerProtocolVersion){
+    // add bad frame to buffer
+    this->addNewDataFrame(BAD_ANSWER_PROTOCOL_VERSION);
+    this->testIsErrorIsThrown();
+
+    this->testAnswerFrameErrorRecovery();
+}
+
 TEST(StdBinDecoder, WeCannotParseAFrameWithSomeMissingFields)
 {
     // Given a frame with only attitude :
