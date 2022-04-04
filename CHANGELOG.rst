@@ -2,6 +2,21 @@
 Changelog for package ixblue_stdbin_decoder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.1 (2022-04-4)
+------------------
+* Add test case to validate recovery :
+   * bad checksum recovery
+   * bad navigation protocol recovery
+   * bad answer protocol recovery
+* Add in dataset erroneous frames
+   * Nav frame with bad checksum
+   * Nav frame with bad protocol version
+   * Answer frame with bad protocol version
+* Add classe used to test error recovery
+* Add in git ignore clion generated files
+* Fix cmake error used old branch master to fixed tagged commit to release-1.11.0
+* Contributors: Foissac Nicola
+
 0.2.0 (2020-11-13)
 ------------------
 * Fix strict aliasing warning by using memcpy
