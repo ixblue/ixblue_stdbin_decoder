@@ -11,25 +11,27 @@
 TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadCheckSum){
     // add bad frame to buffer
     this->addNewDataFrame(BAD_CHECK_SUM);
-    this->testIsErrorIsThrown();
+    this->testIsErrorIsThrown(0);
 
-    this->testNavFrameErrorRecovery();
+    this->testFramesErrorRecovery();
 }
 
 TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadNavProtocolVersion){
     // add bad frame to buffer
     this->addNewDataFrame(BAD_NAV_PROTOCOL_VERSION);
-    this->testIsErrorIsThrown();
+    ssize_t cleaned_buffer_size = BAD_NAV_PROTOCOL_VERSION.size() - 1;
+    this->testIsErrorIsThrown(cleaned_buffer_size);
 
-    this->testNavFrameErrorRecovery();
+    this->testFramesErrorRecovery();
 }
 
 TEST_F(TestStdBinDecoderErrorRecovery, RecoveryFromBadAnswerProtocolVersion){
     // add bad frame to buffer
     this->addNewDataFrame(BAD_ANSWER_PROTOCOL_VERSION);
-    this->testIsErrorIsThrown();
+    ssize_t cleaned_buffer_size = BAD_ANSWER_PROTOCOL_VERSION.size() - 1;
+    this->testIsErrorIsThrown(cleaned_buffer_size);
 
-    this->testAnswerFrameErrorRecovery();
+    this->testFramesErrorRecovery();
 }
 
 TEST(StdBinDecoder, WeCannotParseAFrameWithSomeMissingFields)
