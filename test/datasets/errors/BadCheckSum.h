@@ -1,5 +1,5 @@
-#ifndef TEST_DATASET_BAD_CHECK_SUM_HPP
-#define TEST_DATASET_BAD_CHECK_SUM_HPP
+#ifndef TEST_DATASET_BAD_CHECK_SUM_H
+#define TEST_DATASET_BAD_CHECK_SUM_H
 #include <array>
 // clang-format off
 constexpr std::array<uint8_t,0x25> BAD_CHECK_SUM {
@@ -16,4 +16,4 @@ constexpr std::array<uint8_t,0x25> BAD_CHECK_SUM {
     0x00, 0x00, 0x00, 0x00  /* Checksum */
 };
 // clang-format on
-#endif //TEST_DATASET_BAD_CHECK_SUM_HPP
+#endif //TEST_DATASET_BAD_CHECK_SUM_H
