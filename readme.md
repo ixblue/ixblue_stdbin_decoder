@@ -29,8 +29,8 @@ Please note that a [ROS driver](https://github.com/ixblue/ixblue_ins_stdbin_driv
 ---
 ## Protocol
 
-The protocol iXblue stdbin allows to obtain as much information as possible from inertial system data thanks to its modularity.
-Here is a non exhaustive list of data that are proposed in the protocol:
+The protocol iXblue stdbin allows obtaining as much information as possible from inertial system data thanks to its modularity.
+Here is a non-exhaustive list of data that are proposed in the protocol:
 
 * Attitude
 * Positions
@@ -112,7 +112,7 @@ std::vector<uint8_t> binaryDatas;
 size_t bytesRead = mySocket.read(binaryDatas);
 try {
   decoder.addNewData(binaryDatas.data(), bytesRead);
-  while(decoder.parse()) {
+  while(decoder.parseNextFrame()) {
     auto navDatas = decoder.getLastNavData();
     // Do something with the nav data
   }
@@ -123,14 +123,14 @@ try {
 
 The `StdBinDecoder::addNewData` adds the newly arrived bytes to the parsed internal buffer.
 The parser manages the reconstruction of the frames. It can then be used on serial port, TCP and UDP.
-The method `StdBinDecoder::parseNextFrame` returns true if a valid frame has been parsed from the internal buffer. The frame content can then be retireved with the method `StdBinDecoder::getLastNavData`.
+The method `StdBinDecoder::parseNextFrame` returns true if a valid frame has been parsed from the internal buffer. The frame content can then be retrieved with the method `StdBinDecoder::getLastNavData`.
 
 Parsing errors are reported by throwing `std::runtime_execpetion`.
 
 **[Back to top](#table-of-contents)**
 
 ---
-## Bug repports:
+## Bug reports:
 
 Feel free to open a Github issue if you encounter any problem with this parser, we will process it as soon as possible.
 

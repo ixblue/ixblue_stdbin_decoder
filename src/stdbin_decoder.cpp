@@ -232,7 +232,10 @@ bool StdBinDecoder::haveEnoughBytesToParseHeader()
             case 0x03: return internalBuffer.size() >= HEADER_SIZE_V3;
             case 0x04: return internalBuffer.size() >= HEADER_SIZE_V4;
             case 0x05: return internalBuffer.size() >= HEADER_SIZE_V5;
-            default: throw std::runtime_error("Unhandled protocol version");
+            default:
+                // Errors need to clean header, pop one byte at front associated to internal buffer and thrown exception
+                internalBuffer.pop_front();
+                throw std::runtime_error("Unhandled protocol version");
             }
         }
         else if(internalBuffer[0] == 'A' && internalBuffer[1] == 'N')
@@ -243,6 +246,8 @@ bool StdBinDecoder::haveEnoughBytesToParseHeader()
             }
             else
             {
+                // Errors need to clean header, pop one byte at front associated to internal buffer and thrown exception
+                internalBuffer.pop_front();
                 throw std::runtime_error("Unhandled protocol version for an answer");
             }
         }
@@ -271,6 +276,9 @@ void StdBinDecoder::compareChecksum()
 
     if(receivedChecksum != computedChecksum)
     {
+        // Remove the parsed telegram from the buffer
+        internalBuffer.erase_begin(lastHeader.telegramSize);
+
         std::ostringstream ss;
         ss << "Bad checksum. Received: 0x" << std::hex << receivedChecksum
            << ", computed: 0x" << computedChecksum;
