@@ -35,7 +35,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   set(CMAKE_CXX_EXTENSIONS OFF)
 
   # Testing only available if this is the main app
-  option(BUILD_TESTING "" OFF)
+  option(BUILD_TESTING "Enable tests build." OFF)
   include(CTest)
 endif()
 
