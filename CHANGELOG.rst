@@ -4,17 +4,23 @@ Changelog for package ixblue_stdbin_decoder
 
 0.2.1 (2022-04-4)
 ------------------
+* Fix example in readme use wrong function.
+* Bump package.xml version to 0.2.1
+* Fix bad protocol exception looping error with cleaning buffer with only one byte
+* Fix checksum exception  looping error with cleaning buffer with telegram size
+* Add feature test class to merge each error recovery testing code
 * Add test case to validate recovery :
    * bad checksum recovery
    * bad navigation protocol recovery
    * bad answer protocol recovery
-* Add in dataset erroneous frames
+* Add in dataset erroneous frames :
    * Nav frame with bad checksum
    * Nav frame with bad protocol version
    * Answer frame with bad protocol version
 * Add classe used to test error recovery
 * Add in git ignore clion generated files
-* Fix cmake error used old branch master to fixed tagged commit to release-1.11.0
+* Add CMake option description for BUILD_TESTING variable
+* Fix CMake error used old branch master to fixed tagged commit to release-1.11.0
 * Contributors: Foissac Nicola
 
 0.2.0 (2020-11-13)
