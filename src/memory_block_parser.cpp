@@ -1,8 +1,8 @@
 #include <stdexcept>
 
-#include <boost/endian/conversion.hpp>
-
 #include <ixblue_stdbin_decoder/memory_block_parser.h>
+
+#include <boost/endian/conversion.hpp>
 
 namespace ixblue_stdbin_decoder
 {
@@ -28,8 +28,7 @@ void MemoryBlockParser::parse(boost::asio::const_buffer& buffer, const tBitMask&
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, double& res)
 {
-    uint64_t bytes = *boost::asio::buffer_cast<const uint64_t*>(buf);
-    boost::endian::big_to_native_inplace(bytes);
+    uint64_t bytes = boost::endian::big_to_native(*boost::asio::buffer_cast<const uint64_t*>(buf));
     std::memcpy(&res, &bytes, sizeof(double));
     buf = buf + sizeof(double);
     return buf;
@@ -37,8 +36,7 @@ boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, double& re
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, float& res)
 {
-    uint32_t bytes = *boost::asio::buffer_cast<const uint32_t*>(buf);
-    boost::endian::big_to_native_inplace(bytes);
+    uint32_t bytes = boost::endian::big_to_native(*boost::asio::buffer_cast<const uint32_t*>(buf));
     std::memcpy(&res, &bytes, sizeof(float));
     buf = buf + sizeof(float);
     return buf;
@@ -46,32 +44,28 @@ boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, float& res
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, int32_t& res)
 {
-    res = *boost::asio::buffer_cast<const int32_t*>(buf);
-    boost::endian::big_to_native_inplace(res);
+    res = boost::endian::big_to_native(*boost::asio::buffer_cast<const int32_t*>(buf));
     buf = buf + sizeof(int32_t);
     return buf;
 }
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, uint64_t& res)
 {
-    res = *boost::asio::buffer_cast<const uint64_t*>(buf);
-    boost::endian::big_to_native_inplace(res);
+    res = boost::endian::big_to_native(*boost::asio::buffer_cast<const uint64_t*>(buf));
     buf = buf + sizeof(uint64_t);
     return buf;
 }
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, uint32_t& res)
 {
-    res = *boost::asio::buffer_cast<const uint32_t*>(buf);
-    boost::endian::big_to_native_inplace(res);
+    res = boost::endian::big_to_native(*boost::asio::buffer_cast<const uint32_t*>(buf));
     buf = buf + sizeof(uint32_t);
     return buf;
 }
 
 boost::asio::const_buffer& operator>>(boost::asio::const_buffer& buf, uint16_t& res)
 {
-    res = *boost::asio::buffer_cast<const uint16_t*>(buf);
-    boost::endian::big_to_native_inplace(res);
+    res = boost::endian::big_to_native(*boost::asio::buffer_cast<const uint16_t*>(buf));
     buf = buf + sizeof(uint16_t);
     return buf;
 }
