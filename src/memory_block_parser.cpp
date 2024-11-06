@@ -14,7 +14,7 @@ void MemoryBlockParser::parse(boost::asio::const_buffer& buffer, const tBitMask&
     if(mask.test(offsetInMask))
     {
         // And there is enough bytes in buffer we can parse it :
-        if(boost::asio::buffer_size(buffer) >= bytesCount)
+        if(buffer.size() >= bytesCount)
         {
             parse(buffer, outBinaryNav);
         }
