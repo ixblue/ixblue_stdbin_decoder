@@ -79,7 +79,7 @@ If you need to run unit tests, you can do it in your build directory by first en
 To run all tests :
 
 ```sh
-cmake -DBUILD_TESTING ..
+cmake -DBUILD_TESTING=TRUE ..
 make test
 ```
 
